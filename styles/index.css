@@ -1,5 +1,6 @@
 body {
 	--body-background-color: #111117;
+	--link-color: #66BBEE;
 
 	background-color: var(--body-background-color);
 	color: white;
@@ -7,7 +8,7 @@ body {
 	& a {
 		&,
 		&:visited {
-			color: #66BBEE;
+			color: var(--link-color);
 		}
 	}
 
@@ -70,6 +71,15 @@ body {
 					border-right-width: var(--sector-border-width);
 				}
 			}
+		}
+	}
+
+	> .links {
+		margin-top: 2.6em;
+		text-align: center;
+
+		& a {
+			color: color-mix(in srgb, var(--link-color), grey 60%);
 		}
 	}
 }
