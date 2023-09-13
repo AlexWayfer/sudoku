@@ -30,6 +30,15 @@ body {
 		margin: 1.4em auto 0;
 		width: fit-content;
 
+		& .loading {
+			--size: 100px;
+
+			position: absolute;
+			width: var(--size);
+			top: calc(50% - var(--size) / 2);
+			left: calc(50% - var(--size) / 2);
+		}
+
 		& table {
 			border-collapse: collapse;
 			font-size: 2em;

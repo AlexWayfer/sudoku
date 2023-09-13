@@ -47,7 +47,10 @@ export default class Field {
 	fill() {
 		const fillingStart = performance.now()
 
+		const loadingImage = this.element.querySelector('.loading')
+		loadingImage.classList.remove('hidden')
 		this.#fillDiagonalSquares()
+		loadingImage.classList.add('hidden')
 
 		console.debug(`Field filling time is ${performance.now() - fillingStart} ms`)
 	}
