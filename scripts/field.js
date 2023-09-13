@@ -44,6 +44,12 @@ export default class Field {
 		tableElement.append(...rowElements)
 	}
 
+	clear() {
+		this.squares.forEach(squaresInRow => {
+			squaresInRow.forEach(square => square.clear())
+		})
+	}
+
 	fill() {
 		const fillingStart = performance.now()
 
