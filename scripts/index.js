@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', _event => {
 	field.fill()
 
 	document.querySelector('.controls .new-game').addEventListener('click', _event => {
-		field.clear()
-		field.fill()
+		if (confirm('Do you want to reset this game and start a new one?')) {
+			field.clear()
+			field.fill()
+		}
 	})
 })
