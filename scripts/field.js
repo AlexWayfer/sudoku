@@ -19,6 +19,9 @@ export default class Field {
 			})
 		})
 
+		const tableElement = document.createElement('table')
+		this.element.append(tableElement)
+
 		this.cellElements = []
 
 		//// https://stackoverflow.com/a/65714624/2630849
@@ -38,12 +41,14 @@ export default class Field {
 			return rowElement
 		})
 
-		this.element.append(...rowElements)
+		tableElement.append(...rowElements)
 	}
 
 	fill() {
 		const fillingStart = performance.now()
+
 		this.#fillDiagonalSquares()
+
 		console.debug(`Field filling time is ${performance.now() - fillingStart} ms`)
 	}
 
