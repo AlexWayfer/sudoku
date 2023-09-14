@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<style>
+			body {
+				--body-background-color: #111117;
+				--link-color: #66BBEE;
+
+				/* background-color: var(--body-background-color); */
+				background: transparent;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				& .container {
+					background: transparent;
+					padding: 100px;
+
+					& table {
+						--border-size: 8px;
+						--border: var(--border-size) solid black;
+
+						border-spacing: 0;
+						border-collapse: separate;
+						/* border-radius: 50px; */
+						border: var(--border);
+
+						background-color: color-mix(
+							in srgb, var(--body-background-color), var(--link-color) 80%
+						);
+
+						& tr {
+							& td {
+								--size: 100px;
+
+								width: var(--size);
+								height: var(--size);
+
+								box-sizing: border-box;
+
+								text-align: center;
+								vertical-align: center;
+
+								font-size: 86px;
+								font-weight: 900;
+								line-height: 0;
+
+								&:not(:last-child) {
+									border-right: var(--border);
+									width: calc(var(--size) + var(--border-size));
+								}
+							}
+
+							&:not(:last-child) td {
+								border-bottom: var(--border);
+								height: calc(var(--size) + var(--border-size));
+							}
+						}
+					}
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<table>
+				<tr>
+					<td>1</td><td></td>
+				</tr>
+				<tr>
+					<td></td><td>2</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
