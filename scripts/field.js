@@ -1,4 +1,4 @@
-import { Square, SquareFillError } from './square.js'
+import { Square, SquareGenerateError } from './square.js'
 
 export default class Field {
 	constructor(squareSize, element) {
@@ -48,139 +48,153 @@ export default class Field {
 		this.squares.forEach(squaresInRow => {
 			squaresInRow.forEach(square => square.clear())
 		})
+
+		this.cellElements.forEach(cellElement => {
+			cellElement.innerText = null
+		})
 	}
 
 	fill() {
-		const fillingStart = performance.now()
+		this.#generate()
 
-		this.#fillDiagonalSquares()
+		//// TODO: Make "voids" in schema by difficulty
 
-		console.debug(`Field filling time is ${performance.now() - fillingStart} ms`)
+		this.schema.forEach((value, index) => {
+			this.cellElements[index].innerText = value
+		})
 	}
 
-	#fillDiagonalSquares(attempt = 1) {
-		console.debug('fill diagonal squares')
+	#generate() {
+		const generatingStart = performance.now()
+
+		this.#generateDiagonalSquares()
+
+		console.debug(`Field generating time is ${performance.now() - generatingStart} ms`)
+	}
+
+	#generateDiagonalSquares(attempt = 1) {
+		console.debug('generate diagonal squares')
 
 		const squares = [[0, 0], [1, 1], [2, 2]].map(([y, x]) => this.squares[y][x])
 
 		try {
-			squares.forEach(square => square.fill())
+			squares.forEach(square => square.generate())
 
-			this.#fillHorizontalSquares()
+			this.#generateHorizontalSquares()
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareFillError && attempt < 10) {
-				console.debug('refill diagonal squares')
+			if (error instanceof SquareGenerateError && attempt < 10) {
+				console.debug('regenerate diagonal squares')
 
-				this.#fillDiagonalSquares(attempt + 1)
+				this.#generateDiagonalSquares(attempt + 1)
 			} else {
 				throw error
 			}
 		}
 	}
 
-	#fillCrossSquares(attempt = 1) {
-		console.debug('fill cross squares')
+	#generateCrossSquares(attempt = 1) {
+		console.debug('generate cross squares')
 
 		const squares = [[1, 0], [1, 2], [0, 1], [2, 1]].map(([y, x]) => this.squares[y][x])
 
 		try {
-			squares.forEach(square => square.fill())
+			squares.forEach(square => square.generate())
 
-			this.#fillRestSquares()
+			this.#generateRestSquares()
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareFillError && attempt < 5) {
-				console.debug('refill cross squares')
+			if (error instanceof SquareGenerateError && attempt < 5) {
+				console.debug('regenerate cross squares')
 
-				this.#fillCrossSquares(attempt + 1)
+				this.#generateCrossSquares(attempt + 1)
 			} else {
 				throw error
 			}
 		}
 	}
 
-	#fillHorizontalSquares(attempt = 1) {
-		console.debug('fill horizontal squares')
+	#generateHorizontalSquares(attempt = 1) {
+		console.debug('generate horizontal squares')
 
 		const squares = [[1, 0], [1, 2]].map(([y, x]) => this.squares[y][x])
 
 		try {
-			squares.forEach(square => square.fill())
+			squares.forEach(square => square.generate())
 
-			this.#fillVerticalSquares()
+			this.#generateVerticalSquares()
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareFillError && attempt < 3) {
-				console.debug('refill horizontal squares')
+			if (error instanceof SquareGenerateError && attempt < 3) {
+				console.debug('regenerate horizontal squares')
 
-				this.#fillHorizontalSquares(attempt + 1)
+				this.#generateHorizontalSquares(attempt + 1)
 			} else {
 				throw error
 			}
 		}
 	}
 
-	#fillVerticalSquares(attempt = 1) {
-		console.debug('fill vertical squares')
+	#generateVerticalSquares(attempt = 1) {
+		console.debug('generate vertical squares')
 
 		const squares = [[0, 1], [2, 1]].map(([y, x]) => this.squares[y][x])
 
 		try {
-			squares.forEach(square => square.fill())
+			squares.forEach(square => square.generate())
 
-			this.#fillRestSquares()
+			this.#generateRestSquares()
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareFillError && attempt < 3) {
-				console.debug('refill vertical squares')
+			if (error instanceof SquareGenerateError && attempt < 3) {
+				console.debug('regenerate vertical squares')
 
-				this.#fillVerticalSquares(attempt + 1)
+				this.#generateVerticalSquares(attempt + 1)
 			} else {
 				throw error
 			}
 		}
 	}
 
-	#fillRestSquares(attempt = 1) {
-		console.debug('fill rest squares')
+	#generateRestSquares(attempt = 1) {
+		console.debug('generate rest squares')
 
 		const squares = [[0, 2], [2, 0]].map(([y, x]) => this.squares[y][x])
 
 		try {
-			squares.forEach(square => square.fill())
+			squares.forEach(square => square.generate())
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareFillError && attempt < 3) {
-				console.debug('refill rest squares')
+			if (error instanceof SquareGenerateError && attempt < 3) {
+				console.debug('regenerate rest squares')
 
-				this.#fillRestSquares(attempt + 1)
+				this.#generateRestSquares(attempt + 1)
 			} else {
 				throw error
 			}
 		}
 	}
 
-	#fillAllRestSquares(attempt = 1) {
-		console.debug('fill all rest squares')
+	#generateAllRestSquares(attempt = 1) {
+		console.debug('generate all rest squares')
 
 		const squares =
 			[[1, 0], [1, 2], [0, 1], [2, 1], [0, 2], [2, 0]].map(([y, x]) => this.squares[y][x])
 
 		try {
-			squares.forEach(square => square.fill())
+			squares.forEach(square => square.generate())
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareFillError && attempt < 10) {
-				console.debug('refill all rest squares')
+			if (error instanceof SquareGenerateError && attempt < 10) {
+				console.debug('regenerate all rest squares')
 
-				this.#fillAllRestSquares(attempt + 1)
+				this.#generateAllRestSquares(attempt + 1)
 			} else {
 				throw error
 			}

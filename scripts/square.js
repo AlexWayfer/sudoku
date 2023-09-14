@@ -1,4 +1,4 @@
-import SquareFillError from './square-fill-error.js'
+import SquareGenerateError from './square-generate-error.js'
 
 class Square {
 	constructor(field, row, column) {
@@ -20,8 +20,8 @@ class Square {
 		})
 	}
 
-	fill(attempt = 1) {
-		// console.debug('square fill')
+	generate(attempt = 1) {
+		// console.debug('square generate')
 		// console.debug('this.size = ', this.size)
 
 		for (let rowIndex = 0; rowIndex < this.size; rowIndex++) {
@@ -58,33 +58,14 @@ class Square {
 					this.clear()
 
 					if (attempt < 10) {
-						return this.fill(attempt + 1)
+						return this.generate(attempt + 1)
 					} else {
-						throw new SquareFillError()
-
-						// console.debug('schema = ', schema)
-
-						// let
-						// 	previousSquareRowIndex = squareRowIndex,
-						// 	previousSquareColumnIndex = squareColumnIndex
-						//
-						// if (squareColumnIndex > 0) {
-						// 	previousSquareColumnIndex--
-						// } else if (previousSquareRowIndex > 0) {
-						// 	previousSquareRowIndex--
-						// } else {
-						// 	previousSquareColumnIndex++
-						// }
-						//
-						// fillSquare(previousSquareRowIndex, previousSquareColumnIndex)
-						//
-						// return fillSquare(squareRowIndex, squareColumnIndex)
+						throw new SquareGenerateError()
 					}
 				}
 
 				this.field.schema[schemaIndex] =
-					this.field.cellElements[schemaIndex].innerText =
-						availableValues[Math.floor(Math.random() * availableValues.length)]
+					availableValues[Math.floor(Math.random() * availableValues.length)]
 			}
 		}
 	}
@@ -92,12 +73,8 @@ class Square {
 	clear() {
 		this.indexes.forEach(range => {
 			this.field.schema.fill(null, ...range)
-
-			for (let index = range[0]; index < range[1]; index++)  {
-				this.field.cellElements[index].innerText = null
-			}
 		})
 	}
 }
 
-export { Square, SquareFillError }
+export { Square, SquareGenerateError }
