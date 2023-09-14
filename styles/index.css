@@ -1,10 +1,11 @@
 body {
 	--body-background-color: #111117;
 	--border-color: #3f3f44;
+	--text-color: white;
 	--link-color: #66BBEE;
 
 	background-color: var(--body-background-color);
-	color: white;
+	color: var(--text-color);
 
 	& a {
 		&,
@@ -83,6 +84,8 @@ body {
 					width: var(--size);
 					height: var(--size);
 
+					font-weight: 700;
+
 					--background-color: var(--body-background-color);
 					background-color: var(--background-color);
 
@@ -90,6 +93,11 @@ body {
 
 					&.selected {
 						background-color: color-mix(in srgb, var(--background-color), var(--link-color) 55%);
+					}
+
+					&.pre-filled {
+						font-weight: normal;
+						color: color-mix(in srgb, var(--text-color), var(--background-color) 30%);
 					}
 				}
 

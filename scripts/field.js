@@ -94,7 +94,11 @@ export default class Field {
 		})
 
 		this.schema.forEach((value, index) => {
-			this.cellElements[index].innerText = value
+			const cellElement = this.cellElements[index]
+
+			if (value) cellElement.classList.add('pre-filled')
+
+			cellElement.innerText = value
 		})
 	}
 
