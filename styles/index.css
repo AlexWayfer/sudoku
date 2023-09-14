@@ -30,6 +30,15 @@ body {
 		display: none !important;
 	}
 
+	.transparent {
+		opacity: 0 !important;
+	}
+
+	.can-be-transparent {
+		opacity: 1;
+		transition: opacity 150ms ease-in-out;
+	}
+
 	> h1 {
 		text-align: center;
 		margin-top: 1em;

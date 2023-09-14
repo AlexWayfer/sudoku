@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', _event => {
 
 	field.fill()
 
+	field.element.classList.remove('transparent')
+	document.querySelector('body > .links').classList.remove('transparent')
+
 	document.querySelector('.controls .new-game').addEventListener('click', _event => {
 		if (confirm('Do you want to reset this game and start a new one?')) {
 			field.clear()
