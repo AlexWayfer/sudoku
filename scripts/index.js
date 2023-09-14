@@ -15,3 +15,9 @@ document.addEventListener('DOMContentLoaded', _event => {
 		}
 	})
 })
+
+window.addEventListener('beforeunload', event => {
+	event.preventDefault()
+
+	return event.returnValue = 'The current game will be lost. Are you sure?'
+}, { capture: true })
