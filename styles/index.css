@@ -84,6 +84,7 @@ body {
 					width: var(--size);
 					height: var(--size);
 
+					color: color-mix(in srgb, var(--link-color), var(--background-color) 15%);
 					font-weight: 700;
 
 					--background-color: var(--body-background-color);
@@ -92,7 +93,7 @@ body {
 					border: 1px solid var(--border-color);
 
 					&.selected {
-						background-color: color-mix(in srgb, var(--background-color), var(--link-color) 55%);
+						background-color: color-mix(in srgb, var(--background-color), var(--link-color) 30%);
 					}
 
 					&.pre-filled {
