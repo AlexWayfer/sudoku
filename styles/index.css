@@ -44,6 +44,7 @@ body {
 		position: relative;
 		margin: 2.6em auto 0;
 		width: fit-content;
+		user-select: none;
 
 		& .controls {
 			display: flex;
