@@ -57,7 +57,10 @@ export default class Field {
 	fill() {
 		this.#generate()
 
-		//// TODO: Make "voids" in schema by difficulty
+		//// TODO: Make this depending by difficulty
+		this.schema = this.schema.map(value => {
+			return Math.random() < 0.5 ? null : value
+		})
 
 		this.schema.forEach((value, index) => {
 			this.cellElements[index].innerText = value
