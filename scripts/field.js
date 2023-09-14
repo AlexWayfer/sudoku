@@ -19,9 +19,6 @@ export default class Field {
 			})
 		})
 
-		const tableElement = document.createElement('table')
-		this.element.append(tableElement)
-
 		this.cellElements = []
 
 		//// https://stackoverflow.com/a/65714624/2630849
@@ -30,6 +27,10 @@ export default class Field {
 
 			const cellElements = (new Array(this.rowSize)).fill(null).map(_element => {
 				const cellElement = document.createElement('td')
+
+				cellElement.addEventListener('click', _event => {
+					this.selectedCell = cellElement
+				})
 
 				this.cellElements.push(cellElement)
 
@@ -41,7 +42,34 @@ export default class Field {
 			return rowElement
 		})
 
-		tableElement.append(...rowElements)
+		this.element.querySelector('table').append(...rowElements)
+
+		const buttonElements = (new Array(this.rowSize)).fill(null).map((_element, index) => {
+			const buttonElement = document.createElement('button')
+
+			buttonElement.innerText = index + 1
+
+			buttonElement.addEventListener('click', _event => {
+				if (this.selectedCell) {
+					this.selectedCell.innerText = index + 1
+				} else {
+					alert('First — select a cell, then press a button with number.')
+				}
+			})
+
+			return buttonElement
+		})
+
+		this.element.querySelector('.buttons').append(...buttonElements)
+	}
+
+	get selectedCell() {
+		return this.cellElements.find(cellElement => cellElement.classList.contains('selected'))
+	}
+
+	set selectedCell(newValue) {
+		this.selectedCell?.classList?.remove('selected')
+		newValue.classList.add('selected')
 	}
 
 	clear() {

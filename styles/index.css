@@ -74,9 +74,14 @@ body {
 					width: var(--size);
 					height: var(--size);
 
-					/* background-color: var(--body-background-color); */
+					--background-color: var(--body-background-color);
+					background-color: var(--background-color);
 
 					border: 1px solid var(--border-color);
+
+					&.selected {
+						background-color: color-mix(in srgb, var(--background-color), var(--link-color) 55%);
+					}
 				}
 
 				&:nth-child(3n - 2) td {
@@ -94,6 +99,17 @@ body {
 				& td:nth-child(3n) {
 					border-right-width: var(--sector-border-width);
 				}
+			}
+		}
+
+		> .buttons {
+			display: flex;
+			justify-content: center;
+			margin: 1.6em 0;
+
+			& button {
+				font-size: 28px;
+				margin: 4px;
 			}
 		}
 	}
