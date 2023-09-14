@@ -53,8 +53,12 @@ export default class Field {
 
 			buttonElement.addEventListener('click', _event => {
 				if (this.selectedCell) {
-					const schemaIndex = this.cellElements.indexOf(this.selectedCell)
-					this.schema[schemaIndex] = this.selectedCell.innerText = buttonValue
+					if (this.selectedCell.classList.contains('pre-filled')) {
+						alert("You can't change pre-filled cells.")
+					} else {
+						const schemaIndex = this.cellElements.indexOf(this.selectedCell)
+						this.schema[schemaIndex] = this.selectedCell.innerText = buttonValue
+					}
 				} else {
 					alert('First — select a cell, then press a button with number.')
 				}
