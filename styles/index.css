@@ -69,23 +69,23 @@ body {
 		& table {
 			border-collapse: collapse;
 			font-size: 2em;
+			margin: 0 auto;
 
 			--sector-border-width: 3px;
 
 			& tr {
 				& td {
-					--size: 2em;
+					--size: 1.7em;
 
 					box-sizing: border-box;
 
-					padding: 0.4em;
 					text-align: center;
+					vertical-align: middle;
 
 					width: var(--size);
 					height: var(--size);
 
 					color: color-mix(in srgb, var(--link-color), var(--background-color) 15%);
-					font-weight: 700;
 
 					--background-color: var(--body-background-color);
 					background-color: var(--background-color);
@@ -98,7 +98,7 @@ body {
 
 					&.pre-filled {
 						font-weight: normal;
-						color: color-mix(in srgb, var(--text-color), var(--background-color) 30%);
+						color: color-mix(in srgb, var(--text-color), var(--background-color) 20%);
 					}
 				}
 
