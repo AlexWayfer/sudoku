@@ -45,13 +45,16 @@ export default class Field {
 		this.element.querySelector('table').append(...rowElements)
 
 		const buttonElements = (new Array(this.rowSize)).fill(null).map((_element, index) => {
-			const buttonElement = document.createElement('button')
+			const
+				buttonElement = document.createElement('button'),
+				buttonValue = index + 1
 
-			buttonElement.innerText = index + 1
+			buttonElement.innerText = buttonValue
 
 			buttonElement.addEventListener('click', _event => {
 				if (this.selectedCell) {
-					this.selectedCell.innerText = index + 1
+					const schemaIndex = this.cellElements.indexOf(this.selectedCell)
+					this.schema[schemaIndex] = this.selectedCell.innerText = buttonValue
 				} else {
 					alert('First — select a cell, then press a button with number.')
 				}
