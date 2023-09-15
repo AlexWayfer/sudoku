@@ -1,4 +1,5 @@
 import SquareGenerateError from './square-generate-error.js'
+import Cell from './cell.js'
 
 class Square {
 	constructor(field, row, column) {
@@ -6,50 +7,40 @@ class Square {
 		this.row = row
 		this.column = column
 
-		// console.debug('this.field = ', this.field)
-
 		this.size = this.field.squareSize
 
-		this.startIndex =
-			row * Math.pow(this.size, 2) * this.field.width + column * this.size
-
-		this.indexes = (new Array(this.size)).fill(null).map((_element, index) => {
-			const rowStartIndex = this.startIndex + index * this.field.rowSize
-
-			return [rowStartIndex, rowStartIndex + this.size]
+		this.cells = (new Array(this.size)).fill(null).map((_element, rowIndex) => {
+			return (new Array(this.size)).fill(null).map((_element, columnIndex) => {
+				return new Cell(this, rowIndex, columnIndex)
+			})
 		})
 	}
 
 	generate(attempt = 1) {
-		// console.debug('square generate')
-		// console.debug('this.size = ', this.size)
+		// console.debug(`square (${this.row}, ${this.column}) generate, attempt = ${attempt}`)
 
 		for (let rowIndex = 0; rowIndex < this.size; rowIndex++) {
 			for (let columnIndex = 0; columnIndex < this.size; columnIndex++) {
 				let availableValues =
-					(new Array(Math.pow(this.size, 2)))
-						.fill(null)
-						.map((_element, index) => index + 1)
-
-				// console.debug('availableValues = ', availableValues)
+					(new Array(Math.pow(this.size, 2))).fill(null).map((_element, index) => index + 1)
 
 				const
-					schemaIndex = this.startIndex + rowIndex * this.field.rowSize + columnIndex,
-					rowStartIndex = Math.floor(schemaIndex / this.field.rowSize) * this.field.rowSize,
-					row =
-						this.field.schema.slice(rowStartIndex, rowStartIndex + this.field.rowSize),
-					column =
-						this.field.schema.slice(0, schemaIndex)
-							.filter((_element, index) => index % 9 == schemaIndex % 9),
-					square = this.indexes.flatMap(range => this.field.schema.slice(...range))
+					squaresRow = this.field.squares[this.row].slice(0, this.field.width),
+					row = squaresRow.flatMap(
+						square => square.cells[rowIndex].map(cell => cell.value)
+					),
+					squaresColumn = this.field.squares.map(squaresRow => squaresRow[this.column]),
+					column = squaresColumn.flatMap(
+						square => square.cells.map(cellsRow => cellsRow[columnIndex].value)
+					),
+					square = this.cells.flat().map(cell => cell.value)
 
 				// console.debug('row = ', row)
+				// console.debug('column = ', column)
 				// console.debug('square = ', square)
-				// console.debug('schemaIndex = ', schemaIndex)
 
-				availableValues = availableValues.filter(element => {
-					// return true
-					return !row.includes(element) && !column.includes(element) && !square.includes(element)
+				availableValues = availableValues.filter(value => {
+					return !row.includes(value) && !column.includes(value) && !square.includes(value)
 				})
 
 				// console.debug('availableValues = ', availableValues)
@@ -64,16 +55,14 @@ class Square {
 					}
 				}
 
-				this.field.schema[schemaIndex] =
+				this.cells[rowIndex][columnIndex].value =
 					availableValues[Math.floor(Math.random() * availableValues.length)]
 			}
 		}
 	}
 
 	clear() {
-		this.indexes.forEach(range => {
-			this.field.schema.fill(null, ...range)
-		})
+		this.cells.flat().map(cell => cell?.clear())
 	}
 }
 

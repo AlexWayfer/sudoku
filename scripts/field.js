@@ -11,30 +11,11 @@ export default class Field {
 		this.rowSize = this.squareSize * this.width
 		this.columnSize = this.squareSize * this.height
 
-		this.schema = (new Array(this.rowSize * this.columnSize)).fill(null)
-
-		this.squares = (new Array(this.height)).fill(null).map((_element, rowIndex) => {
-			return (new Array(this.width)).fill(null).map((_element, columnIndex) => {
-				return new Square(this, rowIndex, columnIndex)
-			})
-		})
-
-		this.cellElements = []
-
-		//// https://stackoverflow.com/a/65714624/2630849
 		const rowElements = (new Array(this.columnSize)).fill(null).map(_element => {
 			const rowElement = document.createElement('tr')
 
 			const cellElements = (new Array(this.rowSize)).fill(null).map(_element => {
-				const cellElement = document.createElement('td')
-
-				cellElement.addEventListener('click', _event => {
-					this.selectedCell = cellElement
-				})
-
-				this.cellElements.push(cellElement)
-
-				return cellElement
+				return document.createElement('td')
 			})
 
 			rowElement.append(...cellElements)
@@ -42,7 +23,21 @@ export default class Field {
 			return rowElement
 		})
 
-		this.element.querySelector('table').append(...rowElements)
+		this.tableElement = this.element.querySelector('table')
+
+		this.tableElement.append(...rowElements)
+
+		this.squares = []
+
+		for (let rowIndex = 0; rowIndex < this.height; rowIndex++) {
+			this.squares[rowIndex] ??= []
+
+			for (let columnIndex = 0; columnIndex < this.width; columnIndex++) {
+				// console.debug('this.squares = ', this.squares)
+
+				this.squares[rowIndex][columnIndex] = new Square(this, rowIndex, columnIndex)
+			}
+		}
 
 		const buttonElements = (new Array(this.rowSize)).fill(null).map((_element, index) => {
 			const
@@ -52,12 +47,13 @@ export default class Field {
 			buttonElement.innerText = buttonValue
 
 			buttonElement.addEventListener('click', _event => {
-				if (this.selectedCell) {
-					if (this.selectedCell.classList.contains('pre-filled')) {
+				const selectedCell = this.getSelectedCell()
+
+				if (selectedCell) {
+					if (selectedCell.isPreFilled) {
 						alert("You can't change pre-filled cells.")
 					} else {
-						const schemaIndex = this.cellElements.indexOf(this.selectedCell)
-						this.schema[schemaIndex] = this.selectedCell.innerText = buttonValue
+						selectedCell.value = buttonValue
 					}
 				} else {
 					alert('First — select a cell, then press a button with number.')
@@ -70,39 +66,41 @@ export default class Field {
 		this.element.querySelector('.buttons').append(...buttonElements)
 	}
 
-	get selectedCell() {
-		return this.cellElements.find(cellElement => cellElement.classList.contains('selected'))
+	getSelectedCell() {
+		let result = null
+		for (let square of this.squares.flat()) {
+			for (let cell of square.cells.flat()) {
+				if (cell.isSelected) {
+					result = cell
+					break
+				}
+			}
+			if (result) break
+		}
+		return result
 	}
 
 	set selectedCell(newValue) {
-		this.selectedCell?.classList?.remove('selected')
-		newValue.classList.add('selected')
+		const selectedCell = this.getSelectedCell()
+		if (selectedCell) selectedCell.unselect()
+		newValue.select()
 	}
 
 	clear() {
-		this.squares.forEach(squaresInRow => {
-			squaresInRow.forEach(square => square.clear())
-		})
-
-		this.cellElements.forEach(cellElement => {
-			cellElement.innerText = null
-		})
+		this.squares.flat().forEach(square => square.clear())
 	}
 
 	fill() {
 		this.#generate()
 
-		//// TODO: Make this depending by difficulty
-		this.schema = this.schema.map(value => {
-			return Math.random() < 0.5 ? null : value
-		})
-
-		this.schema.forEach((value, index) => {
-			const cellElement = this.cellElements[index]
-
-			if (value) cellElement.classList.add('pre-filled')
-
-			cellElement.innerText = value
+		this.squares.flat().forEach(square => {
+			square.cells.flat().forEach(cell => {
+				//// TODO: Make this depending by difficulty
+				if (Math.random() < 0.5) {
+					cell.value = null
+				}
+				cell.fill()
+			})
 		})
 	}
 
