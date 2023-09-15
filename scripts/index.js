@@ -15,6 +15,25 @@ document.addEventListener('DOMContentLoaded', _event => {
 			field.fill()
 		}
 	})
+
+	document.addEventListener('keydown', event => {
+		// console.debug(`field keydown, key = ${event.key}`)
+
+		switch (event.key) {
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				const selectedCell = field.getSelectedCell()
+				if (selectedCell) selectedCell.value = event.key
+				break;
+		}
+	})
 })
 
 window.addEventListener('beforeunload', event => {
