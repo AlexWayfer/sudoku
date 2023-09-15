@@ -146,7 +146,7 @@ export default class Field {
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareGenerateError && attempt < 5) {
+			if (error instanceof SquareGenerateError && attempt < 10) {
 				console.debug('regenerate cross squares')
 
 				this.#generateCrossSquares(attempt + 1)
@@ -168,7 +168,7 @@ export default class Field {
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareGenerateError && attempt < 3) {
+			if (error instanceof SquareGenerateError && attempt < 10) {
 				console.debug('regenerate horizontal squares')
 
 				this.#generateHorizontalSquares(attempt + 1)
@@ -190,7 +190,7 @@ export default class Field {
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareGenerateError && attempt < 3) {
+			if (error instanceof SquareGenerateError && attempt < 10) {
 				console.debug('regenerate vertical squares')
 
 				this.#generateVerticalSquares(attempt + 1)
@@ -210,7 +210,7 @@ export default class Field {
 		} catch(error) {
 			squares.forEach(square => square.clear())
 
-			if (error instanceof SquareGenerateError && attempt < 3) {
+			if (error instanceof SquareGenerateError && attempt < 10) {
 				console.debug('regenerate rest squares')
 
 				this.#generateRestSquares(attempt + 1)
