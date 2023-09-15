@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', _event => {
 
 	field.fill()
 
+	document.querySelector('.loading').classList.add('hidden')
 	field.element.classList.remove('transparent')
 	document.querySelector('body > .links').classList.remove('transparent')
 
