@@ -27,7 +27,9 @@ document.addEventListener('DOMContentLoaded', _event => {
 	})
 
 	document.addEventListener('keydown', event => {
-		// console.debug(`field keydown, key = ${event.key}`)
+		// console.debug(`document keydown, key = ${event.key}`)
+
+		const selectedCell = field.getSelectedCell()
 
 		switch (event.key) {
 			case '1':
@@ -39,7 +41,6 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case '7':
 			case '8':
 			case '9':
-				const selectedCell = field.getSelectedCell()
 				if (selectedCell) selectedCell.value = event.key
 				break;
 			case 'w':
@@ -57,6 +58,10 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case 'd':
 			case 'ArrowRight':
 				field.moveSelection(0, 1)
+				break;
+			case 'Delete':
+			case 'Backspace':
+				selectedCell?.erase()
 				break;
 		}
 	})
