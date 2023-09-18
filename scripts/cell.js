@@ -90,8 +90,8 @@ export default class Cell {
 
 	clear() {
 		this.isFilled = false
-		this.value = null
 		this.element.classList.remove('pre-filled')
+		this.value = null
 		this.element.innerText = null
 	}
 
