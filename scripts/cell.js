@@ -2,17 +2,21 @@ export default class Cell {
 	#value = null
 
 	constructor(square, row, column) {
+		this.square = square
+		this.row = row
+		this.column = column
+
+		this.rowIndex = this.square.row * this.square.size + row
+		this.columnIndex = this.square.column * this.square.size + column
+
 		this.isFilled = false
 
-		this.rowIndex = square.row * square.size + row
-		this.columnIndex = square.column * square.size + column
-
-		this.element = square.field.tableElement.querySelector(
+		this.element = this.square.field.tableElement.querySelector(
 			`tr:nth-child(${this.rowIndex + 1}) td:nth-child(${this.columnIndex + 1})`
 		)
 
 		this.element.addEventListener('click', _event => {
-			square.field.selectedCell = this
+			this.square.field.selectedCell = this
 		})
 	}
 
@@ -27,7 +31,55 @@ export default class Cell {
 		}
 
 		this.#value = newValue
-		if (this.isFilled) this.element.innerText = newValue
+		if (this.isFilled) {
+			//// Probably we should rely on initially generated schema here
+
+			const takenValues = this.getTakenValues()
+
+			// console.debug('takenValues = ', takenValues)
+			// console.debug('newValue = ', newValue)
+			// console.debug(
+			// 	'takenValues.some(takenValue => takenValue == newValue) = ',
+			// 	takenValues.some(takenValue => takenValue == newValue)
+			// )
+
+			this.element.classList.toggle(
+				'mistake',
+				//// `some` is for String and Integer comparison
+				takenValues.some(takenValue => takenValue == newValue)
+			)
+
+			this.element.innerText = newValue
+		}
+	}
+
+	getTakenValues() {
+		const
+			squareValues =
+				this.square.cells.flat().map(cell => {
+					if (cell != this) return cell.value
+				}),
+			rowSquares = this.square.field.squares[this.square.row],
+			rowValues =
+				rowSquares.flatMap(square => {
+					return square.cells[this.row].map(cell => {
+						if (cell != this) return cell.value
+					})
+				}),
+			columnSquares = this.square.field.squares.map(rowSquares => rowSquares[this.square.column]),
+			columnValues =
+				columnSquares.flatMap(square => {
+					return square.cells.map(rowCells => {
+						const cell = rowCells[this.column]
+						if (cell != this) return cell.value
+					})
+				})
+
+		// console.debug('squareValues = ', squareValues)
+		// console.debug('rowValues = ', rowValues)
+		// console.debug('columnValues = ', columnValues)
+
+		return [...squareValues, ...rowValues, ...columnValues]
 	}
 
 	fill() {

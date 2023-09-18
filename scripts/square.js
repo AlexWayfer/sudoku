@@ -21,26 +21,16 @@ class Square {
 
 		for (let rowIndex = 0; rowIndex < this.size; rowIndex++) {
 			for (let columnIndex = 0; columnIndex < this.size; columnIndex++) {
+				const cell = this.cells[rowIndex][columnIndex]
+
 				let availableValues =
 					(new Array(Math.pow(this.size, 2))).fill(null).map((_element, index) => index + 1)
 
-				const
-					squaresRow = this.field.squares[this.row].slice(0, this.field.width),
-					row = squaresRow.flatMap(
-						square => square.cells[rowIndex].map(cell => cell.value)
-					),
-					squaresColumn = this.field.squares.map(squaresRow => squaresRow[this.column]),
-					column = squaresColumn.flatMap(
-						square => square.cells.map(cellsRow => cellsRow[columnIndex].value)
-					),
-					square = this.cells.flat().map(cell => cell.value)
-
-				// console.debug('row = ', row)
-				// console.debug('column = ', column)
-				// console.debug('square = ', square)
+				const takenValues = cell.getTakenValues()
 
 				availableValues = availableValues.filter(value => {
-					return !row.includes(value) && !column.includes(value) && !square.includes(value)
+					//// `some` is for String and Integer comparison
+					return !takenValues.some(takenValue => takenValue == value)
 				})
 
 				// console.debug('availableValues = ', availableValues)
@@ -55,8 +45,7 @@ class Square {
 					}
 				}
 
-				this.cells[rowIndex][columnIndex].value =
-					availableValues[Math.floor(Math.random() * availableValues.length)]
+				cell.value = availableValues[Math.floor(Math.random() * availableValues.length)]
 			}
 		}
 	}

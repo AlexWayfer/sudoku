@@ -109,6 +109,10 @@ body {
 						font-weight: normal;
 						color: color-mix(in srgb, var(--text-color), var(--background-color) 20%);
 					}
+
+					&.mistake {
+						color: red;
+					}
 				}
 
 				&:nth-child(3n - 2) td {
