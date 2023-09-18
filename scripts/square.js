@@ -50,6 +50,10 @@ class Square {
 		}
 	}
 
+	checkCompletion() {
+		return this.cells.flat().every(cell => cell.value)
+	}
+
 	clear() {
 		this.cells.flat().map(cell => cell.clear())
 	}

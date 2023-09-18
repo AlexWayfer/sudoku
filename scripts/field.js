@@ -60,6 +60,8 @@ export default class Field {
 		})
 
 		this.element.querySelector('.buttons').append(...buttonElements)
+
+		this.completedOverlayElement = this.element.querySelector('.completed-overlay')
 	}
 
 	getSelectedCell() {
@@ -99,6 +101,12 @@ export default class Field {
 		this.selectedCell =
 			this.squares[Math.floor(newRow / this.squareSize)][Math.floor(newColumn / this.squareSize)]
 				.cells[newRow % this.squareSize][newColumn % this.squareSize]
+	}
+
+	checkCompletion() {
+		if (this.squares.flat().every(square => square.checkCompletion())) {
+			this.completedOverlayElement.classList.remove('hidden')
+		}
 	}
 
 	reset() {

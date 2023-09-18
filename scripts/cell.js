@@ -31,10 +31,14 @@ export default class Cell {
 		}
 
 		this.#value = newValue
+
 		if (this.isFilled) {
 			//// Probably we should rely on initially generated schema here
 
-			const takenValues = this.getTakenValues()
+			const
+				takenValues = this.getTakenValues(),
+				//// `some` is for String and Integer comparison
+				isMistake = takenValues.some(takenValue => takenValue == newValue)
 
 			// console.debug('takenValues = ', takenValues)
 			// console.debug('newValue = ', newValue)
@@ -43,13 +47,11 @@ export default class Cell {
 			// 	takenValues.some(takenValue => takenValue == newValue)
 			// )
 
-			this.element.classList.toggle(
-				'mistake',
-				//// `some` is for String and Integer comparison
-				takenValues.some(takenValue => takenValue == newValue)
-			)
+			this.element.classList.toggle('mistake', isMistake)
 
 			this.element.innerText = newValue
+
+			if (!isMistake) this.square.field.checkCompletion()
 		}
 	}
 

@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', _event => {
 		}
 	})
 
+	document.querySelector('.completed-overlay .new-game').addEventListener('click', _event => {
+		field.clear()
+		field.fill()
+		field.completedOverlayElement.classList.add('hidden')
+	})
+
 	document.querySelector('.actions .erase').addEventListener('click', _event => {
 		field.getSelectedCell()?.erase()
 	})
