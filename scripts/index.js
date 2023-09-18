@@ -32,6 +32,22 @@ document.addEventListener('DOMContentLoaded', _event => {
 				const selectedCell = field.getSelectedCell()
 				if (selectedCell) selectedCell.value = event.key
 				break;
+			case 'w':
+			case 'ArrowUp':
+				field.moveSelection(-1, 0)
+				break;
+			case 'a':
+			case 'ArrowLeft':
+				field.moveSelection(0, -1)
+				break;
+			case 's':
+			case 'ArrowDown':
+				field.moveSelection(1, 0)
+				break;
+			case 'd':
+			case 'ArrowRight':
+				field.moveSelection(0, 1)
+				break;
 		}
 	})
 })

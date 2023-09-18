@@ -86,6 +86,25 @@ export default class Field {
 		newValue.select()
 	}
 
+	moveSelection(rowDiff, columnDiff) {
+		const selectedCell = this.getSelectedCell()
+
+		if (!selectedCell) {
+			this.selectedCell = this.squares[0][0].cells[0][0]
+			return
+		}
+
+		const
+			maxRow = this.height * this.squareSize - 1,
+			maxColumn = this.width * this.squareSize - 1,
+			newRow = Math.min(Math.max(selectedCell.rowIndex + rowDiff, 0), maxRow),
+			newColumn = Math.min(Math.max(selectedCell.columnIndex + columnDiff, 0), maxColumn)
+
+		this.selectedCell =
+			this.squares[Math.floor(newRow / this.squareSize)][Math.floor(newColumn / this.squareSize)]
+				.cells[newRow % this.squareSize][newColumn % this.squareSize]
+	}
+
 	clear() {
 		this.squares.flat().forEach(square => square.clear())
 	}

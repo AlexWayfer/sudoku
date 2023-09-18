@@ -4,12 +4,11 @@ export default class Cell {
 	constructor(square, row, column) {
 		this.isFilled = false
 
-		const
-			rowIndex = square.row * square.size + row,
-			columnIndex = square.column * square.size + column
+		this.rowIndex = square.row * square.size + row
+		this.columnIndex = square.column * square.size + column
 
 		this.element = square.field.tableElement.querySelector(
-			`tr:nth-child(${rowIndex + 1}) td:nth-child(${columnIndex + 1})`
+			`tr:nth-child(${this.rowIndex + 1}) td:nth-child(${this.columnIndex + 1})`
 		)
 
 		this.element.addEventListener('click', _event => {
