@@ -154,6 +154,25 @@ body {
 				color: color-mix(in srgb, white, var(--link-color) 30%);
 			}
 		}
+
+		> .actions {
+			display: flex;
+			justify-content: center;
+
+			& button {
+				font-size: 18px;
+
+				& svg {
+					--size: 1.6em;
+
+					display: block;
+					margin: 0.2em auto 0.3em;
+
+					width: var(--size);
+					height: var(--size);
+				}
+			}
+		}
 	}
 
 	> .links {

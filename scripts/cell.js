@@ -94,6 +94,16 @@ export default class Cell {
 		if (!this.isPreFilled) this.value = null
 	}
 
+	erase() {
+		if (this.isPreFilled) {
+			alert("You can't erase pre-filled cells.")
+			return
+		}
+
+		this.element.classList.remove('mistake')
+		this.value = null
+	}
+
 	clear() {
 		this.isFilled = false
 		this.element.classList.remove('pre-filled')

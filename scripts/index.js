@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', _event => {
 		}
 	})
 
+	document.querySelector('.actions .erase').addEventListener('click', _event => {
+		field.getSelectedCell()?.erase()
+	})
+
 	document.addEventListener('keydown', event => {
 		// console.debug(`field keydown, key = ${event.key}`)
 
