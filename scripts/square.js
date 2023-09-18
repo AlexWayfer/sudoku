@@ -51,7 +51,11 @@ class Square {
 	}
 
 	clear() {
-		this.cells.flat().map(cell => cell?.clear())
+		this.cells.flat().map(cell => cell.clear())
+	}
+
+	reset() {
+		this.cells.flat().map(cell => cell.reset())
 	}
 }
 

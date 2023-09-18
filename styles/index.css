@@ -69,6 +69,12 @@ body {
 			& button {
 				font-size: 18px;
 			}
+
+			& .left-part,
+			& .right-part {
+				display: flex;
+				gap: 0.4em;
+			}
 		}
 
 		& table {

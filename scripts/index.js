@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', _event => {
 		}
 	})
 
+	document.querySelector('.controls .restart').addEventListener('click', _event => {
+		if (confirm('Do you want to restart this game?')) {
+			field.reset()
+		}
+	})
+
 	document.addEventListener('keydown', event => {
 		// console.debug(`field keydown, key = ${event.key}`)
 

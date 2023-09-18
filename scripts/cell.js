@@ -88,6 +88,12 @@ export default class Cell {
 		this.element.innerText = this.value
 	}
 
+	reset() {
+		this.element.classList.remove('selected')
+		this.element.classList.remove('mistake')
+		if (!this.isPreFilled) this.value = null
+	}
+
 	clear() {
 		this.isFilled = false
 		this.element.classList.remove('pre-filled')

@@ -101,6 +101,10 @@ export default class Field {
 				.cells[newRow % this.squareSize][newColumn % this.squareSize]
 	}
 
+	reset() {
+		this.squares.flat().forEach(square => square.reset())
+	}
+
 	clear() {
 		this.squares.flat().forEach(square => square.clear())
 	}
