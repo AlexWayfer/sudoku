@@ -9,29 +9,6 @@ document.addEventListener('DOMContentLoaded', _event => {
 	field.element.classList.remove('transparent')
 	document.querySelector('body > .links').classList.remove('transparent')
 
-	document.querySelector('.controls .new-game').addEventListener('click', _event => {
-		if (confirm('Do you want to reset this game and start a new one?')) {
-			field.clear()
-			field.fill()
-		}
-	})
-
-	document.querySelector('.controls .restart').addEventListener('click', _event => {
-		if (confirm('Do you want to restart this game?')) {
-			field.reset()
-		}
-	})
-
-	document.querySelector('.completed-overlay .new-game').addEventListener('click', _event => {
-		field.clear()
-		field.fill()
-		field.completedOverlayElement.classList.add('hidden')
-	})
-
-	document.querySelector('.actions .erase').addEventListener('click', _event => {
-		field.getSelectedCell()?.erase()
-	})
-
 	document.addEventListener('keydown', event => {
 		// console.debug(`document keydown, key = ${event.key}`)
 

@@ -11,6 +11,8 @@ export default class Field {
 		this.rowSize = this.squareSize * this.width
 		this.columnSize = this.squareSize * this.height
 
+		//// Table
+
 		const rowElements = (new Array(this.columnSize)).fill(null).map(_element => {
 			const rowElement = document.createElement('tr')
 
@@ -39,6 +41,23 @@ export default class Field {
 			}
 		}
 
+		//// Controls
+
+		this.element.querySelector('.controls .new-game').addEventListener('click', _event => {
+			if (confirm('Do you want to reset this game and start a new one?')) {
+				this.clear()
+				this.fill()
+			}
+		})
+
+		this.element.querySelector('.controls .restart').addEventListener('click', _event => {
+			if (confirm('Do you want to restart this game?')) {
+				this.reset()
+			}
+		})
+
+		//// Number buttons
+
 		const buttonElements = (new Array(this.rowSize)).fill(null).map((_element, index) => {
 			const
 				buttonElement = document.createElement('button'),
@@ -61,7 +80,21 @@ export default class Field {
 
 		this.element.querySelector('.buttons').append(...buttonElements)
 
+		//// Actions
+
+		this.element.querySelector('.actions .erase').addEventListener('click', _event => {
+			this.getSelectedCell()?.erase()
+		})
+
+		//// Completed overlay
+
 		this.completedOverlayElement = this.element.querySelector('.completed-overlay')
+
+		this.element.querySelector('.completed-overlay .new-game').addEventListener('click', _event => {
+			this.clear()
+			this.fill()
+			this.completedOverlayElement.classList.add('hidden')
+		})
 	}
 
 	getSelectedCell() {
