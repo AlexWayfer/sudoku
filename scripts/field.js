@@ -50,11 +50,7 @@ export default class Field {
 				const selectedCell = this.getSelectedCell()
 
 				if (selectedCell) {
-					if (selectedCell.isPreFilled) {
-						alert("You can't change pre-filled cells.")
-					} else {
-						selectedCell.value = buttonValue
-					}
+					selectedCell.value = buttonValue
 				} else {
 					alert('First — select a cell, then press a button with number.')
 				}

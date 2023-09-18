@@ -21,6 +21,11 @@ export default class Cell {
 	}
 
 	set value(newValue) {
+		if (this.isPreFilled) {
+			alert("You can't change pre-filled cells.")
+			return
+		}
+
 		this.#value = newValue
 		if (this.isFilled) this.element.innerText = newValue
 	}
