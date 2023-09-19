@@ -1,11 +1,14 @@
 body {
 	--body-background-color: #111117;
+	--button-background-color: color-mix(in srgb, var(--body-background-color), white 7%);
 	--border-color: #3f3f44;
 	--text-color: white;
 	--link-color: #66BBEE;
 
 	background-color: var(--body-background-color);
 	color: var(--text-color);
+
+	font-family: sans-serif;
 
 	& a {
 		&,
@@ -14,12 +17,26 @@ body {
 		}
 	}
 
-	& button {
-		padding: 0.3em 0.6em;
-		background-color: color-mix(in srgb, var(--body-background-color), white 7%);
+	& button,
+	& label {
+		font-size: 18px;
+	}
+
+	& select {
+		font-size: 16px;
+		padding: 0.2em 0.4em;
+	}
+
+	& button,
+	& select {
+		background-color: var(--button-background-color);
 		color: #ddd;
 		border: 1px solid var(--border-color);
 		border-radius: 0.2em;
+	}
+
+	& button {
+		padding: 0.3em 0.6em;
 
 		&:active {
 			background-color: color-mix(in srgb, var(--body-background-color), white 2%);
@@ -86,10 +103,6 @@ body {
 
 				min-width: 60%;
 				min-height: 30%;
-
-				& button {
-					font-size: 18px;
-				}
 			}
 		}
 
@@ -98,13 +111,10 @@ body {
 			justify-content: space-between;
 			margin: 1em 0;
 
-			& button {
-				font-size: 18px;
-			}
-
 			& .left-part,
 			& .right-part {
 				display: flex;
+				align-items: center;
 				gap: 0.4em;
 			}
 		}

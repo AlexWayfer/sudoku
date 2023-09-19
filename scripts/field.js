@@ -43,16 +43,39 @@ export default class Field {
 
 		//// Controls
 
-		this.element.querySelector('.controls .new-game').addEventListener('click', _event => {
+		this.element.querySelector('.controls button.new-game').addEventListener('click', _event => {
 			if (confirm('Do you want to reset this game and start a new one?')) {
 				this.clear()
 				this.fill()
 			}
 		})
 
-		this.element.querySelector('.controls .restart').addEventListener('click', _event => {
+		this.element.querySelector('.controls button.restart').addEventListener('click', _event => {
 			if (confirm('Do you want to restart this game?')) {
 				this.reset()
+			}
+		})
+
+		//// TODO: Load from local storage
+		this.difficulty = 50
+
+		const difficultySelectElement = this.element.querySelector('.controls select.difficulty')
+
+		difficultySelectElement.value = this.difficulty
+
+		difficultySelectElement.addEventListener('change', event => {
+			const difficultyName = difficultySelectElement.selectedOptions[0].innerText
+
+			if (
+				confirm(
+					`Do you want to reset this game and start a new one with ${difficultyName} difficulty?`
+				)
+			) {
+				this.clear()
+				this.difficulty = difficultySelectElement.value
+				this.fill()
+			} else {
+				difficultySelectElement.value = this.difficulty
 			}
 		})
 
@@ -155,8 +178,7 @@ export default class Field {
 
 		this.squares.flat().forEach(square => {
 			square.cells.flat().forEach(cell => {
-				//// TODO: Make this depending by difficulty
-				if (Math.random() < 0.5) {
+				if (Math.random() < (this.difficulty / 100)) {
 					cell.value = null
 				}
 				cell.fill()
