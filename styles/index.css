@@ -35,7 +35,7 @@ body {
 		color: var(--button-color);
 		border: 1px solid var(--border-color);
 
-		border-radius: 0.2em;
+		border-radius: 5px;
 
 		&:disabled {
 			background-color: color-mix(in srgb, var(--button-background-color), black 30%);
