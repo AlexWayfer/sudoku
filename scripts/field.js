@@ -172,7 +172,9 @@ export default class Field {
 			if (this.historyIndex + 1 > this.history.length - 1) this.redoButtonElement.disabled = true
 		})
 
-		this.element.querySelector('.actions .erase').addEventListener('click', _event => {
+		this.eraseButtonElement = this.element.querySelector('.actions .erase')
+
+		this.eraseButtonElement.addEventListener('click', _event => {
 			this.getSelectedCell()?.erase()
 			this.history
 		})
@@ -225,10 +227,14 @@ export default class Field {
 		return result
 	}
 
-	set selectedCell(newValue) {
+	set selectedCell(newCell) {
 		const selectedCell = this.getSelectedCell()
+
 		if (selectedCell) selectedCell.unselect()
-		newValue.select()
+
+		newCell.select()
+
+		this.eraseButtonElement.disabled = newCell.isPreFilled || !newCell.value
 	}
 
 	moveSelection(rowDiff, columnDiff) {
@@ -260,6 +266,8 @@ export default class Field {
 		this.squares.flat().forEach(square => square.reset())
 
 		this.#resetHistory()
+
+		this.eraseButtonElement.disabled = true
 	}
 
 	clear() {
@@ -268,6 +276,8 @@ export default class Field {
 
 	fill() {
 		this.#resetHistory()
+
+		this.eraseButtonElement.disabled = true
 
 		this.#generate()
 

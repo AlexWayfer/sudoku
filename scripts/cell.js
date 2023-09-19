@@ -49,6 +49,8 @@ export default class Cell {
 
 			this.element.classList.toggle('mistake', isMistake)
 
+			this.square.field.eraseButtonElement.disabled = !newValue
+
 			this.element.innerText = newValue
 
 			if (!isMistake) this.square.field.checkCompletion()
