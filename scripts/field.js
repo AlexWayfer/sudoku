@@ -56,10 +56,26 @@ export default class Field {
 			}
 		})
 
-		//// TODO: Load from local storage
-		this.difficulty = 50
+		const possibleDifficulties = [30, 40, 50, 60, 70, 80]
 
-		const difficultySelectElement = this.element.querySelector('.controls select.difficulty')
+		//// Not `includes` for String and Integer compariso
+		if (!possibleDifficulties.some(possibleDifficulty => possibleDifficulty == this.difficulty)) {
+			this.difficulty = 50
+		}
+
+		const
+			difficultySelectElement = this.element.querySelector('.controls select.difficulty'),
+			difficultyOptionElements = possibleDifficulties.map(possibleDifficulty => {
+				const optionElement = document.createElement('option')
+
+				optionElement.value = possibleDifficulty
+				optionElement.innerText = `${possibleDifficulty}%`
+				if (possibleDifficulty == this.difficulty) optionElement.selected = true
+
+				return optionElement
+			})
+
+		difficultySelectElement.replaceChildren(...difficultyOptionElements)
 
 		difficultySelectElement.value = this.difficulty
 
@@ -118,6 +134,14 @@ export default class Field {
 			this.fill()
 			this.completedOverlayElement.classList.add('hidden')
 		})
+	}
+
+	get difficulty() {
+		return localStorage.getItem('difficulty')
+	}
+
+	set difficulty(newValue) {
+		localStorage.setItem('difficulty', newValue)
 	}
 
 	getSelectedCell() {
