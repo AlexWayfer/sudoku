@@ -18,13 +18,14 @@ body {
 	}
 
 	& button,
+	& select,
 	& label {
 		font-size: 18px;
 	}
 
 	& select {
-		font-size: 16px;
-		padding: 0.2em 0.4em;
+		/* It seems we need for a slightly bigger padding at the top */
+		padding: 0.3em 0.4em 0.2em;
 	}
 
 	& button,
