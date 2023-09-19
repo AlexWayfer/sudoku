@@ -55,6 +55,14 @@ export default class Cell {
 		}
 	}
 
+	setValueWithHistory(newValue) {
+		const oldValue = this.#value
+
+		this.value = newValue
+
+		this.square.field.historyPush({ action: 'setValue', cell: this, oldValue, newValue })
+	}
+
 	getTakenValues() {
 		const
 			squareValues =
@@ -102,8 +110,10 @@ export default class Cell {
 			return
 		}
 
+		if (!this.value) return
+
 		this.element.classList.remove('mistake')
-		this.value = null
+		this.setValueWithHistory(null)
 	}
 
 	clear() {

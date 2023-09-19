@@ -108,7 +108,7 @@ export default class Field {
 				const selectedCell = this.getSelectedCell()
 
 				if (selectedCell) {
-					selectedCell.value = buttonValue
+					selectedCell.setValueWithHistory(buttonValue)
 				} else {
 					alert('First — select a cell, then press a button with number.')
 				}
@@ -121,8 +121,29 @@ export default class Field {
 
 		//// Actions
 
+		this.element.querySelector('.actions .undo').addEventListener('click', _event => {
+			console.debug('this.history = ', this.history)
+			console.debug('this.historyIndex = ', this.historyIndex)
+
+			const currentChange = this.history[this.historyIndex]
+
+			if (!currentChange) return
+
+			switch (currentChange.action) {
+				case 'setValue':
+					this.selectedCell = currentChange.cell
+					currentChange.cell.value = currentChange.oldValue
+					break;
+				default:
+					throw `Unexpected action in history: '${currentChange.action}'`
+			}
+
+			this.historyIndex--
+		})
+
 		this.element.querySelector('.actions .erase').addEventListener('click', _event => {
 			this.getSelectedCell()?.erase()
+			this.history
 		})
 
 		//// Completed overlay
@@ -142,6 +163,18 @@ export default class Field {
 
 	set difficulty(newValue) {
 		localStorage.setItem('difficulty', newValue)
+	}
+
+	historyPush(entry) {
+		if (this.historyIndex < this.history.length - 1) {
+			this.history.splice(this.historyIndex + 1)
+		}
+
+		this.history.push(entry)
+		this.historyIndex++
+
+		console.debug('this.history = ', this.history)
+		console.debug('this.historyIndex = ', this.historyIndex)
 	}
 
 	getSelectedCell() {
@@ -191,6 +224,9 @@ export default class Field {
 
 	reset() {
 		this.squares.flat().forEach(square => square.reset())
+
+		this.history = []
+		this.historyIndex = -1
 	}
 
 	clear() {
@@ -198,6 +234,9 @@ export default class Field {
 	}
 
 	fill() {
+		this.history = []
+		this.historyIndex = -1
+
 		this.#generate()
 
 		this.squares.flat().forEach(square => {

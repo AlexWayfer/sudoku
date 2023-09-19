@@ -200,6 +200,7 @@ body {
 		> .actions {
 			display: flex;
 			justify-content: center;
+			gap: 0.6em;
 
 			& button {
 				font-size: 16px;

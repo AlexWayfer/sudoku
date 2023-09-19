@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case '7':
 			case '8':
 			case '9':
-				if (selectedCell) selectedCell.value = event.key
+				if (selectedCell) selectedCell.setValueWithHistory(event.key)
 				break;
 			case 'w':
 			case 'ArrowUp':
