@@ -121,13 +121,16 @@ export default class Field {
 
 		//// Actions
 
-		this.element.querySelector('.actions .undo').addEventListener('click', _event => {
-			console.debug('this.history = ', this.history)
-			console.debug('this.historyIndex = ', this.historyIndex)
+		this.undoButtonElement = this.element.querySelector('.actions .undo')
+
+		this.undoButtonElement.addEventListener('click', _event => {
+			// console.debug('this.history = ', this.history)
+			// console.debug('this.historyIndex = ', this.historyIndex)
 
 			const currentChange = this.history[this.historyIndex]
 
-			if (!currentChange) return
+			//// Button should be disabled
+			// if (!currentChange) return
 
 			switch (currentChange.action) {
 				case 'setValue':
@@ -139,6 +142,34 @@ export default class Field {
 			}
 
 			this.historyIndex--
+
+			this.redoButtonElement.disabled = false
+
+			if (this.historyIndex < 0) this.undoButtonElement.disabled = true
+		})
+
+		this.redoButtonElement = this.element.querySelector('.actions .redo')
+
+		this.redoButtonElement.addEventListener('click', _event => {
+			const currentChange = this.history[this.historyIndex + 1]
+
+			//// Button should be disabled
+			// if (!currentChange) return
+
+			switch (currentChange.action) {
+				case 'setValue':
+					this.selectedCell = currentChange.cell
+					currentChange.cell.value = currentChange.newValue
+					break;
+				default:
+					throw `Unexpected action in history: '${currentChange.action}'`
+			}
+
+			this.historyIndex++
+
+			this.undoButtonElement.disabled = false
+
+			if (this.historyIndex + 1 > this.history.length - 1) this.redoButtonElement.disabled = true
 		})
 
 		this.element.querySelector('.actions .erase').addEventListener('click', _event => {
@@ -173,8 +204,11 @@ export default class Field {
 		this.history.push(entry)
 		this.historyIndex++
 
-		console.debug('this.history = ', this.history)
-		console.debug('this.historyIndex = ', this.historyIndex)
+		this.undoButtonElement.disabled = false
+		this.redoButtonElement.disabled = true
+
+		// console.debug('this.history = ', this.history)
+		// console.debug('this.historyIndex = ', this.historyIndex)
 	}
 
 	getSelectedCell() {
@@ -225,8 +259,7 @@ export default class Field {
 	reset() {
 		this.squares.flat().forEach(square => square.reset())
 
-		this.history = []
-		this.historyIndex = -1
+		this.#resetHistory()
 	}
 
 	clear() {
@@ -234,8 +267,7 @@ export default class Field {
 	}
 
 	fill() {
-		this.history = []
-		this.historyIndex = -1
+		this.#resetHistory()
 
 		this.#generate()
 
@@ -247,6 +279,14 @@ export default class Field {
 				cell.fill()
 			})
 		})
+	}
+
+	#resetHistory() {
+		this.history = []
+		this.historyIndex = -1
+
+		this.undoButtonElement.disabled = true
+		this.redoButtonElement.disabled = true
 	}
 
 	#generate() {

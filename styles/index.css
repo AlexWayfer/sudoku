@@ -29,16 +29,25 @@ body {
 
 	& button,
 	& select {
+		--button-color: #ddd;
+
 		background-color: var(--button-background-color);
-		color: #ddd;
+		color: var(--button-color);
 		border: 1px solid var(--border-color);
+
 		border-radius: 0.2em;
+
+		&:disabled {
+			background-color: color-mix(in srgb, var(--button-background-color), black 30%);
+			color: color-mix(in srgb, var(--button-color), black 30%);
+			border-color: color-mix(in srgb, var(--border-color), black 30%);
+		}
 	}
 
 	& button {
 		padding: 0.3em 0.6em;
 
-		&:active {
+		&:active:not(:disabled) {
 			background-color: color-mix(in srgb, var(--body-background-color), white 2%);
 			border-color: color-mix(in srgb, var(--border-color), black 25%);
 		}
