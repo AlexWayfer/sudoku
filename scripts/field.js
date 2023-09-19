@@ -279,6 +279,11 @@ export default class Field {
 	}
 
 	clear() {
+		//// It has no time to appear while generating occupies all resources
+		// document.querySelector('body > .links').classList.add('transparent')
+		// this.element.classList.add('transparent')
+		// document.querySelector('.loading').classList.remove('hidden')
+
 		this.squares.flat().forEach(square => square.clear())
 	}
 
@@ -297,6 +302,10 @@ export default class Field {
 				cell.fill()
 			})
 		})
+
+		document.querySelector('.loading').classList.add('hidden')
+		this.element.classList.remove('transparent')
+		document.querySelector('body > .links').classList.remove('transparent')
 	}
 
 	#resetHistory() {
