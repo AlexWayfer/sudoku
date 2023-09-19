@@ -38,7 +38,7 @@ export default class Cell {
 			const
 				takenValues = this.getTakenValues(),
 				//// `some` is for String and Integer comparison
-				isMistake = takenValues.some(takenValue => takenValue == newValue)
+				isMistake = newValue && takenValues.some(takenValue => takenValue == newValue)
 
 			// console.debug('takenValues = ', takenValues)
 			// console.debug('newValue = ', newValue)
@@ -119,6 +119,8 @@ export default class Cell {
 	clear() {
 		this.isFilled = false
 		this.element.classList.remove('pre-filled')
+		this.element.classList.remove('mistake')
+		this.element.classList.remove('selected')
 		this.value = null
 		this.element.innerText = null
 	}
