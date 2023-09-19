@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', _event => {
 	document.querySelector('body > .links').classList.remove('transparent')
 
 	document.addEventListener('keydown', event => {
-		// console.debug(`document keydown, key = ${event.key}`)
+		// console.debug(`document keydown, key = ${event.key}, event = `, event)
 
 		const selectedCell = field.getSelectedCell()
 
@@ -45,6 +45,21 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case 'Delete':
 			case 'Backspace':
 				selectedCell?.erase()
+				break;
+			case 'z':
+				if (event.ctrlKey && !event.shiftKey) {
+					field.undo()
+				}
+				break;
+			case 'Z':
+				if (event.ctrlKey && event.shiftKey) {
+					field.redo()
+				}
+				break;
+			case 'y':
+				if (event.ctrlKey) {
+					field.redo()
+				}
 				break;
 		}
 	})

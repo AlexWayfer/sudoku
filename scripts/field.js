@@ -124,52 +124,13 @@ export default class Field {
 		this.undoButtonElement = this.element.querySelector('.actions .undo')
 
 		this.undoButtonElement.addEventListener('click', _event => {
-			// console.debug('this.history = ', this.history)
-			// console.debug('this.historyIndex = ', this.historyIndex)
-
-			const currentChange = this.history[this.historyIndex]
-
-			//// Button should be disabled
-			// if (!currentChange) return
-
-			switch (currentChange.action) {
-				case 'setValue':
-					this.selectedCell = currentChange.cell
-					currentChange.cell.value = currentChange.oldValue
-					break;
-				default:
-					throw `Unexpected action in history: '${currentChange.action}'`
-			}
-
-			this.historyIndex--
-
-			this.redoButtonElement.disabled = false
-
-			if (this.historyIndex < 0) this.undoButtonElement.disabled = true
+			this.undo()
 		})
 
 		this.redoButtonElement = this.element.querySelector('.actions .redo')
 
 		this.redoButtonElement.addEventListener('click', _event => {
-			const currentChange = this.history[this.historyIndex + 1]
-
-			//// Button should be disabled
-			// if (!currentChange) return
-
-			switch (currentChange.action) {
-				case 'setValue':
-					this.selectedCell = currentChange.cell
-					currentChange.cell.value = currentChange.newValue
-					break;
-				default:
-					throw `Unexpected action in history: '${currentChange.action}'`
-			}
-
-			this.historyIndex++
-
-			this.undoButtonElement.disabled = false
-
-			if (this.historyIndex + 1 > this.history.length - 1) this.redoButtonElement.disabled = true
+			this.redo()
 		})
 
 		this.eraseButtonElement = this.element.querySelector('.actions .erase')
@@ -211,6 +172,53 @@ export default class Field {
 
 		// console.debug('this.history = ', this.history)
 		// console.debug('this.historyIndex = ', this.historyIndex)
+	}
+
+	undo() {
+		// console.debug('this.history = ', this.history)
+		// console.debug('this.historyIndex = ', this.historyIndex)
+
+		const currentChange = this.history[this.historyIndex]
+
+		//// Button should be disabled, but we have key bindings
+		if (!currentChange) return
+
+		switch (currentChange.action) {
+			case 'setValue':
+				this.selectedCell = currentChange.cell
+				currentChange.cell.value = currentChange.oldValue
+				break;
+			default:
+				throw `Unexpected action in history: '${currentChange.action}'`
+		}
+
+		this.historyIndex--
+
+		this.redoButtonElement.disabled = false
+
+		if (this.historyIndex < 0) this.undoButtonElement.disabled = true
+	}
+
+	redo() {
+		const currentChange = this.history[this.historyIndex + 1]
+
+		//// Button should be disabled, but we have key bindings
+		if (!currentChange) return
+
+		switch (currentChange.action) {
+			case 'setValue':
+				this.selectedCell = currentChange.cell
+				currentChange.cell.value = currentChange.newValue
+				break;
+			default:
+				throw `Unexpected action in history: '${currentChange.action}'`
+		}
+
+		this.historyIndex++
+
+		this.undoButtonElement.disabled = false
+
+		if (this.historyIndex + 1 > this.history.length - 1) this.redoButtonElement.disabled = true
 	}
 
 	getSelectedCell() {
