@@ -58,11 +58,15 @@ export default class Cell {
 	}
 
 	setValueWithHistory(newValue) {
-		const oldValue = this.#value
+		const oldValue = this.value
+
+		if (oldValue == newValue) return
 
 		this.value = newValue
 
-		this.square.field.historyPush({ action: 'setValue', cell: this, oldValue, newValue })
+		if (this.value == newValue) {
+			this.square.field.historyPush({ action: 'setValue', cell: this, oldValue, newValue })
+		}
 	}
 
 	getTakenValues() {
