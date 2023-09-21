@@ -19,14 +19,6 @@
 		<h2 class="loading">Loading...</h2>
 
 		<div class="field transparent can-be-transparent">
-			<div class="completed-overlay hidden">
-				<div class="container">
-					<h2>Congratulations!</h2>
-
-					<button class="new-game">New game</button>
-				</div>
-			</div>
-
 			<div class="controls">
 				<div class="left-part">
 					<label>
@@ -34,9 +26,12 @@
 						<select class="difficulty"></select>
 					</label>
 				</div>
-				<div class="right-part">
+				<div class="center-part">
 					<button class="new-game">New game</button>
 					<button class="restart">Restart</button>
+				</div>
+				<div class="right-part">
+					<button class="settings">Settings</button>
 				</div>
 			</div>
 
@@ -72,6 +67,26 @@
 					</svg>
 					Notes
 				</button>
+			</div>
+
+			<div class="overlay settings hidden">
+				<div class="container">
+					<h2>Settings</h2>
+
+					<button class="close">
+						<svg>
+							<use href="images/icons.svg#close" />
+						</svg>
+					</button>
+				</div>
+			</div>
+
+			<div class="overlay completed hidden">
+				<div class="container">
+					<h2>Congratulations!</h2>
+
+					<button class="new-game">New game</button>
+				</div>
 			</div>
 		</div>
 

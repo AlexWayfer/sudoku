@@ -64,6 +64,16 @@ export default class Field {
 			}
 		})
 
+		this.settingsOverlayElement = this.element.querySelector('.overlay.settings')
+
+		this.element.querySelector('.controls button.settings').addEventListener('click', _event => {
+			this.settingsOverlayElement.classList.remove('hidden')
+		})
+
+		this.settingsOverlayElement.querySelector('button.close').addEventListener('click', _event => {
+			this.settingsOverlayElement.classList.add('hidden')
+		})
+
 		const possibleDifficulties = [30, 40, 50, 60, 70, 80]
 
 		//// Not `includes` for String and Integer compariso
@@ -160,13 +170,14 @@ export default class Field {
 
 		//// Completed overlay
 
-		this.completedOverlayElement = this.element.querySelector('.completed-overlay')
+		this.completedOverlayElement = this.element.querySelector('.overlay.completed')
 
-		this.element.querySelector('.completed-overlay .new-game').addEventListener('click', _event => {
-			this.clear()
-			this.fill()
-			this.completedOverlayElement.classList.add('hidden')
-		})
+		this.completedOverlayElement.querySelector('button.new-game')
+			.addEventListener('click', _event => {
+				this.clear()
+				this.fill()
+				this.completedOverlayElement.classList.add('hidden')
+			})
 	}
 
 	get difficulty() {
