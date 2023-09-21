@@ -1,6 +1,7 @@
 body {
 	--body-background-color: #111117;
 	--button-background-color: color-mix(in srgb, var(--body-background-color), white 7%);
+	--button-text-color: #ddd;
 	--border-color: #3f3f44;
 	--text-color: white;
 	--link-color: #66BBEE;
@@ -30,17 +31,15 @@ body {
 
 	& button,
 	& select {
-		--button-color: #ddd;
-
 		background-color: var(--button-background-color);
-		color: var(--button-color);
+		color: var(--button-text-color);
 		border: 1px solid var(--border-color);
 
 		border-radius: 5px;
 
 		&:disabled {
 			background-color: color-mix(in srgb, var(--button-background-color), black 30%);
-			color: color-mix(in srgb, var(--button-color), black 30%);
+			color: color-mix(in srgb, var(--button-text-color), black 30%);
 			border-color: color-mix(in srgb, var(--border-color), black 30%);
 		}
 	}
@@ -49,8 +48,9 @@ body {
 		padding: 0.3em 0.6em;
 
 		&:active:not(:disabled) {
-			background-color: color-mix(in srgb, var(--body-background-color), white 2%);
-			border-color: color-mix(in srgb, var(--border-color), black 25%);
+			background-color: color-mix(in srgb, var(--button-background-color), black 5%);
+			color: color-mix(in srgb, var(--button-text-color), black 10%);
+			border-color: color-mix(in srgb, var(--border-color), black 15%);
 		}
 	}
 
@@ -200,10 +200,11 @@ body {
 				font-size: 28px;
 				margin: 4px;
 
-				--background-color: color-mix(in srgb, var(--body-background-color), var(--link-color) 20%);
+				--background-color: color-mix(in srgb, var(--button-background-color), var(--link-color) 20%);
+
 				background-color: var(--background-color);
 				border-color: color-mix(in srgb, var(--background-color), var(--link-color) 20%);
-				color: color-mix(in srgb, white, var(--link-color) 30%);
+				color: color-mix(in srgb, var(--button-text-color), var(--link-color) 30%);
 			}
 		}
 
