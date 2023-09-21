@@ -17,7 +17,15 @@ export default class Field {
 			const rowElement = document.createElement('tr')
 
 			const cellElements = (new Array(this.rowSize)).fill(null).map(_element => {
-				return document.createElement('td')
+				const
+					cellElement = document.createElement('td'),
+					cellValueElement = document.createElement('span')
+
+				cellValueElement.classList.add('value')
+
+				cellElement.append(cellValueElement)
+
+				return cellElement
 			})
 
 			rowElement.append(...cellElements)
@@ -108,7 +116,11 @@ export default class Field {
 				const selectedCell = this.getSelectedCell()
 
 				if (selectedCell) {
-					selectedCell.setValueWithHistory(buttonValue)
+					if (this.isNotesMode) {
+						selectedCell.toggleNoteWithHistory(buttonValue)
+					} else {
+						selectedCell.setValueWithHistory(buttonValue)
+					}
 				} else {
 					alert('First — select a cell, then press a button with number.')
 				}
@@ -140,6 +152,12 @@ export default class Field {
 			this.history
 		})
 
+		this.notesButtonElement = this.element.querySelector('.actions .notes')
+
+		this.notesButtonElement.addEventListener('click', _event => {
+			this.toggleNotesMode()
+		})
+
 		//// Completed overlay
 
 		this.completedOverlayElement = this.element.querySelector('.completed-overlay')
@@ -157,6 +175,14 @@ export default class Field {
 
 	set difficulty(newValue) {
 		localStorage.setItem('difficulty', newValue)
+	}
+
+	get isNotesMode() {
+		return this.notesButtonElement.classList.contains('enabled')
+	}
+
+	toggleNotesMode() {
+		this.notesButtonElement.classList.toggle('enabled')
 	}
 
 	historyPush(entry) {
@@ -187,7 +213,12 @@ export default class Field {
 			case 'setValue':
 				this.selectedCell = currentChange.cell
 				currentChange.cell.value = currentChange.oldValue
-				break;
+				currentChange.cell.toggleNotes(currentChange.notesValues)
+				break
+			case 'toggleNote':
+				this.selectedCell = currentChange.cell
+				currentChange.cell.toggleNote(currentChange.value)
+				break
 			default:
 				throw `Unexpected action in history: '${currentChange.action}'`
 		}
@@ -209,7 +240,12 @@ export default class Field {
 			case 'setValue':
 				this.selectedCell = currentChange.cell
 				currentChange.cell.value = currentChange.newValue
-				break;
+				currentChange.cell.toggleNotes(currentChange.notesValues)
+				break
+			case 'toggleNote':
+				this.selectedCell = currentChange.cell
+				currentChange.cell.toggleNote(currentChange.value)
+				break
 			default:
 				throw `Unexpected action in history: '${currentChange.action}'`
 		}

@@ -138,17 +138,13 @@ body {
 
 			& tr {
 				& td {
-					--size: 1.7em;
-
+					position: relative;
 					box-sizing: border-box;
 
-					text-align: center;
-					vertical-align: middle;
+					--size: 1.7em;
 
 					width: var(--size);
 					height: var(--size);
-
-					color: color-mix(in srgb, var(--link-color), var(--background-color) 15%);
 
 					--background-color: color-mix(
 						in srgb, var(--body-background-color), var(--link-color) 10%
@@ -159,17 +155,47 @@ body {
 
 					border: 3px solid var(--border-color);
 
+					--manual-text-color: color-mix(in srgb, var(--link-color), var(--background-color) 15%);
+
+					& .value {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						color: var(--manual-text-color);
+
+						&.mistake {
+							color: red;
+						}
+					}
+
 					&.selected {
 						background-color: color-mix(in srgb, var(--background-color), var(--link-color) 30%);
 					}
 
 					&.pre-filled {
 						font-weight: normal;
-						color: color-mix(in srgb, var(--text-color), var(--background-color) 20%);
+
+						& .value {
+							color: color-mix(in srgb, var(--text-color), var(--background-color) 20%);
+						}
 					}
 
-					&.mistake {
-						color: red;
+					& .note {
+						position: absolute;
+
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						font-size: 0.4em;
+						color: color-mix(in srgb, var(--manual-text-color), #aaa);
 					}
 				}
 
@@ -224,6 +250,26 @@ body {
 
 					width: var(--size);
 					height: var(--size);
+				}
+
+				&.notes {
+					&.enabled {
+						--background-color: color-mix(
+							in srgb, var(--body-background-color), var(--link-color) 15%
+						);
+						--text-color: color-mix(in srgb, white, var(--link-color) 35%);
+						--border-color: color-mix(in srgb, var(--background-color), var(--link-color) 20%);
+
+						background-color: var(--background-color);
+						border-color: var(--border-color);
+						color: var(--text-color);
+
+						&:active:not(:disabled) {
+							background-color: color-mix(in srgb, var(--background-color), black 5%);
+							color: color-mix(in srgb, var(--text-color), black 10%);
+							border-color: color-mix(in srgb, var(--border-color), black 15%);
+						}
+					}
 				}
 			}
 		}

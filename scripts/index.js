@@ -20,43 +20,52 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case '7':
 			case '8':
 			case '9':
-				if (selectedCell) selectedCell.setValueWithHistory(event.key)
-				break;
+				if (selectedCell) {
+					if (field.isNotesMode) {
+						selectedCell.toggleNoteWithHistory(event.key)
+					} else {
+						selectedCell.setValueWithHistory(event.key)
+					}
+				}
+				break
 			case 'w':
 			case 'ArrowUp':
 				field.moveSelection(-1, 0)
-				break;
+				break
 			case 'a':
 			case 'ArrowLeft':
 				field.moveSelection(0, -1)
-				break;
+				break
 			case 's':
 			case 'ArrowDown':
 				field.moveSelection(1, 0)
-				break;
+				break
 			case 'd':
 			case 'ArrowRight':
 				field.moveSelection(0, 1)
-				break;
+				break
 			case 'Delete':
 			case 'Backspace':
 				selectedCell?.erase()
-				break;
+				break
+			case 'n':
+				field.toggleNotesMode()
+				break
 			case 'z':
 				if (event.ctrlKey && !event.shiftKey) {
 					field.undo()
 				}
-				break;
+				break
 			case 'Z':
 				if (event.ctrlKey && event.shiftKey) {
 					field.redo()
 				}
-				break;
+				break
 			case 'y':
 				if (event.ctrlKey) {
 					field.redo()
 				}
-				break;
+				break
 		}
 	})
 })

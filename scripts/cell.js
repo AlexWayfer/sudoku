@@ -18,6 +18,10 @@ export default class Cell {
 		this.element.addEventListener('click', _event => {
 			this.square.field.selectedCell = this
 		})
+
+		this.valueElement = this.element.querySelector('.value')
+
+		this.notes = {}
 	}
 
 	get value() {
@@ -25,11 +29,6 @@ export default class Cell {
 	}
 
 	set value(newValue) {
-		if (this.isPreFilled) {
-			alert("You can't change pre-filled cells.")
-			return
-		}
-
 		this.#value = newValue
 
 		if (this.isFilled) {
@@ -47,26 +46,71 @@ export default class Cell {
 			// 	takenValues.some(takenValue => takenValue == newValue)
 			// )
 
-			this.element.classList.toggle('mistake', isMistake)
+			this.valueElement.classList.toggle('mistake', isMistake)
 
 			this.square.field.eraseButtonElement.disabled = !newValue
 
-			this.element.innerText = newValue
+			this.valueElement.innerText = newValue
 
 			if (!isMistake) this.square.field.checkCompletion()
 		}
 	}
 
 	setValueWithHistory(newValue) {
+		if (this.isPreFilled) {
+			alert("You can't change pre-filled cells.")
+			return
+		}
+
 		const oldValue = this.value
 
 		if (oldValue == newValue) return
 
+		const notesValues = Object.keys(this.notes)
+
+		for (const noteValue in this.notes) {
+			this.toggleNote(noteValue)
+		}
+
 		this.value = newValue
 
-		if (this.value == newValue) {
-			this.square.field.historyPush({ action: 'setValue', cell: this, oldValue, newValue })
+		this.square.field.historyPush({
+			action: 'setValue', cell: this, oldValue, newValue, notesValues
+		})
+	}
+
+	toggleNote(value) {
+		if (this.notes[value]) {
+			this.notes[value].remove()
+			delete this.notes[value]
+		} else {
+			const noteElement = document.createElement('span')
+
+			noteElement.classList.add('note')
+
+			const cssSize = `calc(100% / ${this.square.size})`
+
+			noteElement.style.top = `calc(${Math.floor((value - 1) / this.square.size)} * ${cssSize})`
+			noteElement.style.left = `calc(${(value - 1) % this.square.size} * ${cssSize})`
+			noteElement.style.width = cssSize
+			noteElement.style.height = cssSize
+
+			noteElement.innerText = value
+
+			this.element.append(noteElement)
+
+			this.notes[value] = noteElement
 		}
+	}
+
+	toggleNotes(values) {
+		values.forEach(value => this.toggleNote(value))
+	}
+
+	toggleNoteWithHistory(value) {
+		this.toggleNote(value)
+
+		this.square.field.historyPush({ action: 'toggleNote', cell: this, value })
 	}
 
 	getTakenValues() {
@@ -101,12 +145,12 @@ export default class Cell {
 	fill() {
 		this.isFilled = true
 		if (this.value) this.element.classList.add('pre-filled')
-		this.element.innerText = this.value
+		this.valueElement.innerText = this.value
 	}
 
 	reset() {
 		this.element.classList.remove('selected')
-		this.element.classList.remove('mistake')
+		this.valueElement.classList.remove('mistake')
 		if (!this.isPreFilled) this.value = null
 	}
 
@@ -118,17 +162,17 @@ export default class Cell {
 
 		if (!this.value) return
 
-		this.element.classList.remove('mistake')
+		this.valueElement.classList.remove('mistake')
 		this.setValueWithHistory(null)
 	}
 
 	clear() {
 		this.isFilled = false
 		this.element.classList.remove('pre-filled')
-		this.element.classList.remove('mistake')
+		this.valueElement.classList.remove('mistake')
 		this.element.classList.remove('selected')
 		this.value = null
-		this.element.innerText = null
+		this.valueElement.innerText = null
 	}
 
 	get isPreFilled() {
