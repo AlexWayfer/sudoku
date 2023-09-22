@@ -1,4 +1,5 @@
 import { Square, SquareGenerateError } from './square.js'
+import Settings from './settings.js'
 
 export default class Field {
 	constructor(squareSize, element) {
@@ -64,15 +65,15 @@ export default class Field {
 			}
 		})
 
-		this.settingsOverlayElement = this.element.querySelector('.overlay.settings')
+		//// Settings overlay
+
+		this.settings = new Settings(this.element.querySelector('.overlay.settings'))
 
 		this.element.querySelector('.controls button.settings').addEventListener('click', _event => {
-			this.settingsOverlayElement.classList.remove('hidden')
+			this.settings.show()
 		})
 
-		this.settingsOverlayElement.querySelector('button.close').addEventListener('click', _event => {
-			this.settingsOverlayElement.classList.add('hidden')
-		})
+		//// Difficulty setting
 
 		const possibleDifficulties = [30, 40, 50, 60, 70, 80]
 
@@ -224,7 +225,9 @@ export default class Field {
 			case 'setValue':
 				this.selectedCell = currentChange.cell
 				currentChange.cell.value = currentChange.oldValue
-				currentChange.cell.toggleNotes(currentChange.notesValues)
+				currentChange.notesByCells.forEach((notes, cell) => {
+					cell.toggleNotes(notes)
+				})
 				break
 			case 'toggleNote':
 				this.selectedCell = currentChange.cell
@@ -251,7 +254,9 @@ export default class Field {
 			case 'setValue':
 				this.selectedCell = currentChange.cell
 				currentChange.cell.value = currentChange.newValue
-				currentChange.cell.toggleNotes(currentChange.notesValues)
+				currentChange.notesByCells.forEach((notes, cell) => {
+					cell.toggleNotes(notes)
+				})
 				break
 			case 'toggleNote':
 				this.selectedCell = currentChange.cell

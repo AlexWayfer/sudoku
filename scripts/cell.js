@@ -66,16 +66,29 @@ export default class Cell {
 
 		if (oldValue == newValue) return
 
-		const notesValues = Object.keys(this.notes)
+		const notesByCells = new Map()
+
+		notesByCells.set(this, Object.keys(this.notes))
 
 		for (const noteValue in this.notes) {
 			this.toggleNote(noteValue)
 		}
 
+		if (this.square.field.settings.clearNotesAfterValue) {
+			const takenCells = this.#getTakenCells()
+
+			takenCells.forEach(takenCell => {
+				if (takenCell.notes[newValue]) {
+					takenCell.toggleNote(newValue)
+					notesByCells.set(takenCell, [newValue])
+				}
+			})
+		}
+
 		this.value = newValue
 
 		this.square.field.historyPush({
-			action: 'setValue', cell: this, oldValue, newValue, notesValues
+			action: 'setValue', cell: this, oldValue, newValue, notesByCells
 		})
 	}
 
@@ -114,32 +127,7 @@ export default class Cell {
 	}
 
 	getTakenValues() {
-		const
-			squareValues =
-				this.square.cells.flat().map(cell => {
-					if (cell != this) return cell.value
-				}),
-			rowSquares = this.square.field.squares[this.square.row],
-			rowValues =
-				rowSquares.flatMap(square => {
-					return square.cells[this.row].map(cell => {
-						if (cell != this) return cell.value
-					})
-				}),
-			columnSquares = this.square.field.squares.map(rowSquares => rowSquares[this.square.column]),
-			columnValues =
-				columnSquares.flatMap(square => {
-					return square.cells.map(rowCells => {
-						const cell = rowCells[this.column]
-						if (cell != this) return cell.value
-					})
-				})
-
-		// console.debug('squareValues = ', squareValues)
-		// console.debug('rowValues = ', rowValues)
-		// console.debug('columnValues = ', columnValues)
-
-		return [...squareValues, ...rowValues, ...columnValues]
+		return this.#getTakenCells().map(cell => cell.value)
 	}
 
 	fill() {
@@ -189,5 +177,30 @@ export default class Cell {
 
 	unselect() {
 		this.element.classList.remove('selected')
+	}
+
+	#getTakenCells() {
+		return [
+			...this.#getTakenSquareCells(),
+			...this.#getTakenRowCells(),
+			...this.#getTakenColumnCells()
+		]
+	}
+
+	#getTakenSquareCells() {
+		return this.square.cells.flat().filter(cell => cell != this)
+	}
+
+	#getTakenRowCells() {
+		return this.square.field.squares[this.square.row].flatMap(square => {
+			return square.cells[this.row].filter(cell => cell != this)
+		})
+	}
+
+	#getTakenColumnCells() {
+		return this.square.field.squares.map(rowSquares => rowSquares[this.square.column])
+			.flatMap(square => {
+				return square.cells.map(rowCells => rowCells[this.column]).filter(cell => cell != this)
+			})
 	}
 }
