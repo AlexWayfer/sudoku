@@ -1,5 +1,8 @@
 {
 	"devDependencies": {
 		"http-server": "^14.1.1"
+	},
+	"scripts": {
+		"dev": "pnpm exec http-server -c-1"
 	}
 }

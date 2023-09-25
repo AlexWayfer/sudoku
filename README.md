@@ -4,8 +4,9 @@ Just amateur implementation of Sudoku for personal use.
 
 ## Development
 
-1.  Clone the repository and move into it.
-2.  Run `pnpm exec http-server` (JS modules have problems with CORS)
+Run `pnpm dev` for simple HTTP development server.
+
+We need for such thing because of CORS for native browser `import`/`export` in JavaScript.
 
 ## Credentials
 
