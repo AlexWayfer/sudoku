@@ -1,8 +1,10 @@
 {
 	"devDependencies": {
-		"http-server": "^14.1.1"
+		"http-server": "^14.1.1",
+		"yaml": "^2.3.2"
 	},
 	"scripts": {
-		"dev": "pnpm exec http-server -c-1"
+		"dev": "pnpm exec http-server -c-1",
+		"deploy": "node exe/deploy.js"
 	}
 }
