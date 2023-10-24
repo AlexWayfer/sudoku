@@ -2,6 +2,8 @@
 	<head>
 		<title>Sudoku by AlexWayfer</title>
 
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 		<link rel="icon" href="images/favicon.png" />
 
 		<link rel="stylesheet" href="styles/index.css" />
@@ -20,18 +22,26 @@
 
 		<div class="field transparent can-be-transparent">
 			<div class="controls">
-				<div class="left-part">
-					<label>
-						Difficulty:
-						<select class="difficulty"></select>
-					</label>
+				<div class="row">
+					<div class="column">
+						<label>
+							Difficulty:
+							<select class="difficulty"></select>
+						</label>
+					</div>
+					<div class="column">
+						<button class="new-game">New game</button>
+						<button class="restart">Restart</button>
+					</div>
+					<div class="column">
+						<button class="settings">Settings</button>
+					</div>
 				</div>
-				<div class="center-part">
-					<button class="new-game">New game</button>
-					<button class="restart">Restart</button>
-				</div>
-				<div class="right-part">
-					<button class="settings">Settings</button>
+				<div class="row">
+					<div class="column">
+						<button class="new-game">New game</button>
+						<button class="restart">Restart</button>
+					</div>
 				</div>
 			</div>
 

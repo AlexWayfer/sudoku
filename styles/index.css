@@ -150,15 +150,37 @@ body {
 
 		& .controls {
 			display: flex;
-			justify-content: space-between;
+			flex-direction: column;
+			gap: 1em;
 			margin: 1em 0;
 
-			& .left-part,
-			& .center-part,
-			& .right-part {
+			& .row {
 				display: flex;
-				align-items: center;
-				gap: 0.4em;
+				flex-direction: row;
+				justify-content: space-between;
+				gap: 1.4em;
+
+				& .column {
+					display: flex;
+					align-items: center;
+					gap: 0.4em;
+				}
+
+				&:nth-child(2) {
+					display: none;
+				}
+
+				@media (max-width: 650px) {
+					justify-content: center;
+
+					&:nth-child(1) .column:nth-child(2) {
+						display: none;
+					}
+
+					&:nth-child(2) {
+						display: flex;
+					}
+				}
 			}
 		}
 
@@ -248,6 +270,20 @@ body {
 					border-right-width: var(--sector-border-width);
 				}
 			}
+
+			@media (max-width: 650px) {
+				font-size: 1.6em;
+
+				--size: 0.2em;
+
+				--sector-border-width: 4px;
+
+				& tr {
+					& td {
+						border-width: 2px;
+					}
+				}
+			}
 		}
 
 		> .buttons {
@@ -256,7 +292,7 @@ body {
 			margin: 1.6em 0;
 
 			& button {
-				font-size: 28px;
+				font-size: 2em;
 				margin: 4px;
 
 				--background-color: color-mix(in srgb, var(--button-background-color), var(--link-color) 20%);
@@ -264,6 +300,12 @@ body {
 				background-color: var(--background-color);
 				border-color: color-mix(in srgb, var(--background-color), var(--link-color) 20%);
 				color: color-mix(in srgb, var(--button-text-color), var(--link-color) 30%);
+
+				@media (max-width: 650px) {
+					font-size: 1.6em;
+					margin: 0.1em;
+					padding: 0.3em 0.42em;
+				}
 			}
 		}
 
