@@ -9,11 +9,11 @@ class Square {
 
 		this.size = this.field.squareSize
 
-		this.cells = (new Array(this.size)).fill(null).map((_element, rowIndex) => {
-			return (new Array(this.size)).fill(null).map((_element, columnIndex) => {
-				return new Cell(this, rowIndex, columnIndex)
-			})
-		})
+		this.cells = (new Array(this.size)).fill(null).map(
+			(_element, rowIndex) => (new Array(this.size)).fill(null).map(
+				(_element, columnIndex) => new Cell(this, rowIndex, columnIndex)
+			)
+		)
 	}
 
 	generate(attempt = 1) {
@@ -28,10 +28,10 @@ class Square {
 
 				const takenValues = cell.getTakenValues()
 
-				availableValues = availableValues.filter(value => {
+				availableValues = availableValues.filter(
 					//// `some` is for String and Integer comparison
-					return !takenValues.some(takenValue => takenValue == value)
-				})
+					value => !takenValues.some(takenValue => takenValue == value)
+				)
 
 				// console.debug('availableValues = ', availableValues)
 

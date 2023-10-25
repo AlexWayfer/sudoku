@@ -192,15 +192,15 @@ export default class Cell {
 	}
 
 	#getTakenRowCells() {
-		return this.square.field.squares[this.square.row].flatMap(square => {
-			return square.cells[this.row].filter(cell => cell != this)
-		})
+		return this.square.field.squares[this.square.row].flatMap(
+			square => square.cells[this.row].filter(cell => cell != this)
+		)
 	}
 
 	#getTakenColumnCells() {
 		return this.square.field.squares.map(rowSquares => rowSquares[this.square.column])
-			.flatMap(square => {
-				return square.cells.map(rowCells => rowCells[this.column]).filter(cell => cell != this)
-			})
+			.flatMap(
+				square => square.cells.map(rowCells => rowCells[this.column]).filter(cell => cell != this)
+			)
 	}
 }

@@ -98,7 +98,7 @@ export default class Field {
 
 		difficultySelectElement.value = this.difficulty
 
-		difficultySelectElement.addEventListener('change', event => {
+		difficultySelectElement.addEventListener('change', _event => {
 			const difficultyName = difficultySelectElement.selectedOptions[0].innerText
 
 			if (
