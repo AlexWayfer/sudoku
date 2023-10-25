@@ -4,7 +4,7 @@ body {
 	--button-text-color: #ddd;
 	--border-color: #3f3f44;
 	--text-color: white;
-	--link-color: #66BBEE;
+	--link-color: #6BE;
 
 	background-color: var(--body-background-color);
 	color: var(--text-color);
@@ -170,7 +170,7 @@ body {
 					display: none;
 				}
 
-				@media (max-width: 650px) {
+				@media (width < 650px) {
 					justify-content: center;
 
 					&:nth-child(1) .column:nth-child(2) {
@@ -204,6 +204,7 @@ body {
 					--background-color: color-mix(
 						in srgb, var(--body-background-color), var(--link-color) 10%
 					);
+
 					background-color: var(--background-color);
 
 					--border-color: var(--body-background-color);
@@ -271,11 +272,10 @@ body {
 				}
 			}
 
-			@media (max-width: 650px) {
+			@media (width < 650px) {
 				font-size: 1.6em;
 
 				--size: 0.2em;
-
 				--sector-border-width: 4px;
 
 				& tr {
@@ -301,7 +301,7 @@ body {
 				border-color: color-mix(in srgb, var(--background-color), var(--link-color) 20%);
 				color: color-mix(in srgb, var(--button-text-color), var(--link-color) 30%);
 
-				@media (max-width: 650px) {
+				@media (width < 650px) {
 					font-size: 1.6em;
 					margin: 0.1em;
 					padding: 0.3em 0.42em;
