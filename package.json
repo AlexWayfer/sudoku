@@ -1,5 +1,6 @@
 {
 	"devDependencies": {
+		"eslint": "^8.52.0",
 		"http-server": "^14.1.1",
 		"remark-cli": "^12.0.0",
 		"remark-preset-lint-recommended": "^6.1.3",
@@ -9,6 +10,7 @@
 		"dev": "pnpm exec http-server -c-1",
 		"deploy": "node exe/deploy.js",
 		"lint:docs": "remark .",
-		"lint": "pnpm run lint:docs"
+		"lint:scripts": "eslint scripts/ exe/",
+		"lint": "pnpm run lint:docs; docs_lint_result=$?; pnpm run lint:scripts && [ $docs_lint_result -eq 0 ]"
 	}
 }
