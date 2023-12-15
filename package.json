@@ -5,6 +5,7 @@
 		"remark-cli": "^12.0.0",
 		"remark-preset-lint-recommended": "^6.1.3",
 		"stylelint": "^16.0.2",
+		"stylelint-codeguide": "^1.0.2",
 		"stylelint-config-standard": "^35.0.0",
 		"yaml": "^2.3.4"
 	},

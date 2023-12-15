@@ -1,9 +1,14 @@
 extends:
   - stylelint-config-standard
+  ## https://github.com/firefoxic/stylelint-codeguide/issues/9
+  - ./.stylelint-codesguide.yaml
 
 ignorePath: .gitignore
 
 rules:
+  codeguide/indentation:
+    - tab
+
   at-rule-empty-line-before:
     - always
     - except:
@@ -14,9 +19,9 @@ rules:
       ignoreAtRules:
         - else
 
-  declaration-colon-newline-after: null
+  codeguide/declaration-colon-newline-after: null
 
-  function-comma-newline-after: null
+  codeguide/function-comma-newline-after: null
 
   declaration-empty-line-before:
     - always
