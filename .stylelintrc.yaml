@@ -1,7 +1,7 @@
 extends:
   - stylelint-config-standard
   ## https://github.com/firefoxic/stylelint-codeguide/issues/9
-  - ./.stylelint-codesguide.yaml
+  - ./.stylelint-codeguide.yaml
 
 ignorePath: .gitignore
 
