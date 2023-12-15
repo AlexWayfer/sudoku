@@ -4,7 +4,7 @@ body {
 	--button-text-color: #ddd;
 	--border-color: #3f3f44;
 	--text-color: white;
-	--link-color: #6BE;
+	--link-color: #6be;
 
 	background-color: var(--body-background-color);
 	color: var(--text-color);
