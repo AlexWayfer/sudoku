@@ -1,10 +1,10 @@
 export default class NumberButton {
+	#completed = false
+	#selected = false
+
 	constructor(field, value) {
 		this.field = field
 		this.value = value
-
-		this.completed = false
-		this.selected = false
 
 		this.element = document.createElement('button')
 
@@ -25,15 +25,23 @@ export default class NumberButton {
 		})
 	}
 
-	toggleCompletion(value) {
-		this.completed = value
-		this.element.classList.toggle('completed', value)
-
-		if (value && this.selected) this.toggleSelection(false)
+	get completed() {
+		return this.#completed
 	}
 
-	toggleSelection(value) {
-		this.selected = value
-		this.element.classList.toggle('selected', value)
+	set completed(newValue) {
+		this.#completed = newValue
+		this.element.classList.toggle('completed', newValue)
+
+		if (newValue && this.selected) this.selected = false
+	}
+
+	get selected() {
+		return this.#selected
+	}
+
+	set selected(newValue) {
+		this.#selected = newValue
+		this.element.classList.toggle('selected', newValue)
 	}
 }

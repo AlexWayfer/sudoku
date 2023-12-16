@@ -314,11 +314,8 @@ export default class Field {
 
 		if (!this.settings.hideButtonsForCompletedNumbers) return
 
-		this.numberButtons.find(numberButton => numberButton.value == newValue).toggleCompletion(
-			this.squares.flat().every(
-				square => square.cells.flat().some(cell => cell.value == newValue)
-			)
-		)
+		this.numberButtons.find(numberButton => numberButton.value == newValue).completed =
+			this.squares.flat().every(square => square.cells.flat().some(cell => cell.value == newValue))
 	}
 
 	checkCompletion() {
@@ -335,9 +332,11 @@ export default class Field {
 	set selectedNumberButton(numberButton) {
 		if (numberButton?.completed) return
 
-		this.selectedNumberButton?.toggleSelection(false)
+		const selectedNumberButton = this.selectedNumberButton
 
-		numberButton?.toggleSelection(true)
+		if (selectedNumberButton) selectedNumberButton.selected = false
+
+		if (numberButton) numberButton.selected = true
 	}
 
 	reset() {
@@ -356,7 +355,7 @@ export default class Field {
 
 		this.squares.flat().forEach(square => square.clear())
 
-		this.numberButtons.forEach(numberButton => numberButton.toggleCompletion(false))
+		this.numberButtons.forEach(numberButton => numberButton.completed = false)
 	}
 
 	fill() {

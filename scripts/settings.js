@@ -61,7 +61,7 @@ export default class Settings {
 				numberButton => this.field.checkNumberCompletion(numberButton.value)
 			)
 		} else {
-			this.field.numberButtons.forEach(numberButton => numberButton.toggleCompletion(false))
+			this.field.numberButtons.forEach(numberButton => numberButton.completed = false)
 		}
 
 		this.#syncLocalStorage()
