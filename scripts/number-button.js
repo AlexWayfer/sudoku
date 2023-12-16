@@ -16,6 +16,7 @@ export default class NumberButton {
 				} else {
 					selectedCell.setValueWithHistory(this.value)
 				}
+				this.field.playSoundEffect('click')
 			} else {
 				alert('First — select a cell, then press a button with number.')
 			}

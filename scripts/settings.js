@@ -2,6 +2,7 @@ export default class Settings {
 	#data = {
 		clearNotesAfterValue: true,
 		hideButtonsForCompletedNumbers: true,
+		playSoundEffects: true,
 		confirmationOnPageReload: true
 	}
 
@@ -22,6 +23,8 @@ export default class Settings {
 		this.#defineCheckboxSetting('clearNotesAfterValue')
 
 		this.#defineCheckboxSetting('hideButtonsForCompletedNumbers')
+
+		this.#defineCheckboxSetting('playSoundEffects')
 
 		this.#defineCheckboxSetting('confirmationOnPageReload')
 	}
@@ -58,6 +61,15 @@ export default class Settings {
 			this.field.numberButtons.forEach(numberButton => numberButton.toggleCompletion(false))
 		}
 
+		this.#syncLocalStorage()
+	}
+
+	get playSoundEffects() {
+		return this.#data.playSoundEffects
+	}
+
+	set playSoundEffects(newValue) {
+		this.#data.playSoundEffects = newValue
 		this.#syncLocalStorage()
 	}
 

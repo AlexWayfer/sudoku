@@ -301,6 +301,13 @@ export default class Field {
 				.cells[newRow % this.squareSize][newColumn % this.squareSize]
 	}
 
+	playSoundEffect(name) {
+		if (!this.settings.playSoundEffects) return
+
+		const audio = new Audio(`sounds/${name}.mp3`)
+		audio.play()
+	}
+
 	checkNumberCompletion(newValue) {
 		// console.debug('newValue = ', newValue)
 		// console.debug('typeof newValue = ', typeof newValue)
@@ -317,6 +324,7 @@ export default class Field {
 	checkCompletion() {
 		if (this.squares.flat().every(square => square.checkCompletion())) {
 			this.completedOverlayElement.classList.remove('hidden')
+			this.playSoundEffect('completion')
 		}
 	}
 

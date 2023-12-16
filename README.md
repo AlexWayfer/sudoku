@@ -18,3 +18,5 @@ Run `pnpm run deploy`.
 ## Credentials
 
 Button icons: https://www.svgrepo.com/collection/solar-linear-icons/
+
+Sound effects obtained from https://www.zapsplat.com

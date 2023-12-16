@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', _event => {
 					} else {
 						selectedCell.setValueWithHistory(event.key)
 					}
+					field.playSoundEffect('click')
 				}
 				break
 			case 'w':
