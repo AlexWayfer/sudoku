@@ -68,10 +68,12 @@ document.addEventListener('DOMContentLoaded', _event => {
 				break
 		}
 	})
+
+	window.addEventListener('beforeunload', event => {
+		if (!field.settings.confirmationOnPageReload) return
+
+		event.preventDefault()
+
+		return event.returnValue = 'The current game will be lost. Are you sure?'
+	}, { capture: true })
 })
-
-window.addEventListener('beforeunload', event => {
-	event.preventDefault()
-
-	return event.returnValue = 'The current game will be lost. Are you sure?'
-}, { capture: true })

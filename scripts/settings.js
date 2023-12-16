@@ -1,7 +1,8 @@
 export default class Settings {
 	#data = {
 		clearNotesAfterValue: true,
-		hideButtonsForCompletedNumbers: true
+		hideButtonsForCompletedNumbers: true,
+		confirmationOnPageReload: true
 	}
 
 	constructor(field, overlayElement) {
@@ -14,11 +15,15 @@ export default class Settings {
 
 		Object.assign(this.#data, JSON.parse(localStorage.getItem('settings')))
 
+		// console.debug('this.#data = ', this.#data)
+
 		//// Getters and setters are working
 
 		this.#defineCheckboxSetting('clearNotesAfterValue')
 
 		this.#defineCheckboxSetting('hideButtonsForCompletedNumbers')
+
+		this.#defineCheckboxSetting('confirmationOnPageReload')
 	}
 
 	show() {
@@ -53,6 +58,15 @@ export default class Settings {
 			this.field.numberButtons.forEach(numberButton => numberButton.toggleCompletion(false))
 		}
 
+		this.#syncLocalStorage()
+	}
+
+	get confirmationOnPageReload() {
+		return this.#data.confirmationOnPageReload
+	}
+
+	set confirmationOnPageReload(newValue) {
+		this.#data.confirmationOnPageReload = newValue
 		this.#syncLocalStorage()
 	}
 
