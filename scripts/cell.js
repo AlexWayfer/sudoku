@@ -156,11 +156,18 @@ export default class Cell {
 
 	clear() {
 		this.isFilled = false
+
 		this.element.classList.remove('pre-filled')
 		this.valueElement.classList.remove('mistake')
 		this.element.classList.remove('selected')
+
 		this.value = null
 		this.valueElement.innerText = null
+
+		for (const noteValue in this.notes) {
+			this.notes[noteValue].remove()
+		}
+		this.notes = {}
 	}
 
 	get isPreFilled() {
