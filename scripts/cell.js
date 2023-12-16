@@ -28,6 +28,8 @@ export default class Cell {
 			this.element.addEventListener('touchmove', event => {
 				// console.debug('event = ', event)
 
+				event.preventDefault()
+
 				const
 					elementFromPoint = document.elementFromPoint(
 						event.changedTouches[0].clientX, event.changedTouches[0].clientY
