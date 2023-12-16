@@ -13,6 +13,18 @@ export default class Field {
 		this.rowSize = this.squareSize * this.width
 		this.columnSize = this.squareSize * this.height
 
+		//// Drag flags
+
+		this.mousePressed = false
+
+		this.element.addEventListener('mousedown', _event => {
+			this.mousePressed = true
+		})
+
+		this.element.addEventListener('mouseup', _event => {
+			this.mousePressed = false
+		})
+
 		//// Table
 
 		const rowElements = (new Array(this.columnSize)).fill(null).map(_element => {

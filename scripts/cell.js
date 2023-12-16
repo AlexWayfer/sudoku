@@ -15,16 +15,12 @@ export default class Cell {
 			`tr:nth-child(${this.rowIndex + 1}) td:nth-child(${this.columnIndex + 1})`
 		)
 
-		this.element.addEventListener('click', _event => {
-			this.square.field.selectedCell = this
+		this.element.addEventListener('mousedown', _event => {
+			this.#pressEvent()
+		})
 
-			if (!this.square.field.settings.fastMode) return
-
-			const selectedNumberButton = this.square.field.selectedNumberButton
-
-			if (!selectedNumberButton) return
-
-			this.input(this.square.field.selectedNumberButton.value)
+		this.element.addEventListener('mouseenter', _event => {
+			if (this.square.field.mousePressed) this.#pressEvent()
 		})
 
 		this.valueElement = this.element.querySelector('.value')
@@ -218,6 +214,18 @@ export default class Cell {
 			this.notes[noteValue].remove()
 		}
 		this.notes = {}
+	}
+
+	#pressEvent() {
+		this.square.field.selectedCell = this
+
+		if (!this.square.field.settings.fastMode) return
+
+		const selectedNumberButton = this.square.field.selectedNumberButton
+
+		if (!selectedNumberButton) return
+
+		this.input(this.square.field.selectedNumberButton.value)
 	}
 
 	#getTakenCells() {
