@@ -1,5 +1,6 @@
 import { Square, SquareGenerateError } from './square.js'
 import Settings from './settings.js'
+import NumberButton from './number-button.js'
 
 export default class Field {
 	constructor(squareSize, element) {
@@ -67,7 +68,7 @@ export default class Field {
 
 		//// Settings overlay
 
-		this.settings = new Settings(this.element.querySelector('.overlay.settings'))
+		this.settings = new Settings(this, this.element.querySelector('.overlay.settings'))
 
 		this.element.querySelector('.controls button.settings').addEventListener('click', _event => {
 			this.settings.show()
@@ -116,31 +117,15 @@ export default class Field {
 
 		//// Number buttons
 
-		const buttonElements = (new Array(this.rowSize)).fill(null).map((_element, index) => {
-			const
-				buttonElement = document.createElement('button'),
-				buttonValue = index + 1
+		this.numberButtons = (new Array(this.rowSize)).fill(null).map((_element, index) => {
+			const buttonValue = index + 1
 
-			buttonElement.innerText = buttonValue
-
-			buttonElement.addEventListener('click', _event => {
-				const selectedCell = this.getSelectedCell()
-
-				if (selectedCell) {
-					if (this.isNotesMode) {
-						selectedCell.toggleNoteWithHistory(buttonValue)
-					} else {
-						selectedCell.setValueWithHistory(buttonValue)
-					}
-				} else {
-					alert('First — select a cell, then press a button with number.')
-				}
-			})
-
-			return buttonElement
+			return new NumberButton(this, buttonValue)
 		})
 
-		this.element.querySelector('.buttons').append(...buttonElements)
+		this.element.querySelector('.buttons').append(
+			...this.numberButtons.map(numberButton => numberButton.element)
+		)
 
 		//// Actions
 
@@ -314,6 +299,19 @@ export default class Field {
 		this.selectedCell =
 			this.squares[Math.floor(newRow / this.squareSize)][Math.floor(newColumn / this.squareSize)]
 				.cells[newRow % this.squareSize][newColumn % this.squareSize]
+	}
+
+	checkNumberCompletion(newValue) {
+		// console.debug('newValue = ', newValue)
+		// console.debug('typeof newValue = ', typeof newValue)
+
+		if (!this.settings.hideButtonsForCompletedNumbers) return
+
+		this.numberButtons.find(numberButton => numberButton.value == newValue).toggleCompletion(
+			this.squares.flat().every(
+				square => square.cells.flat().some(cell => cell.value == newValue)
+			)
+		)
 	}
 
 	checkCompletion() {

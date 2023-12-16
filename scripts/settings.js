@@ -1,9 +1,11 @@
 export default class Settings {
 	#data = {
-		clearNotesAfterValue: true
+		clearNotesAfterValue: true,
+		hideButtonsForCompletedNumbers: true
 	}
 
-	constructor(overlayElement) {
+	constructor(field, overlayElement) {
+		this.field = field
 		this.overlayElement = overlayElement
 
 		this.overlayElement.querySelector('button.close').addEventListener('click', _event => {
@@ -24,6 +26,17 @@ export default class Settings {
 		clearNotesAfterValueElement.addEventListener('change', event => {
 			this.clearNotesAfterValue = event.target.checked
 		})
+
+		this.hideButtonsForCompletedNumbers ??= true
+
+		const hideButtonsForCompletedNumbersElement =
+			this.overlayElement.querySelector('input[name="hide-buttons-for-completed-numbers"]')
+
+		hideButtonsForCompletedNumbersElement.checked = this.hideButtonsForCompletedNumbers
+
+		hideButtonsForCompletedNumbersElement.addEventListener('change', event => {
+			this.hideButtonsForCompletedNumbers = event.target.checked
+		})
 	}
 
 	show() {
@@ -40,6 +53,24 @@ export default class Settings {
 
 	set clearNotesAfterValue(newValue) {
 		this.#data.clearNotesAfterValue = newValue
+		this.#syncLocalStorage()
+	}
+
+	get hideButtonsForCompletedNumbers() {
+		return this.#data.hideButtonsForCompletedNumbers
+	}
+
+	set hideButtonsForCompletedNumbers(newValue) {
+		this.#data.hideButtonsForCompletedNumbers = newValue
+
+		if (newValue) {
+			this.field.numberButtons.forEach(
+				numberButton => this.field.checkNumberCompletion(numberButton.value)
+			)
+		} else {
+			this.field.numberButtons.forEach(numberButton => numberButton.toggleCompletion(false))
+		}
+
 		this.#syncLocalStorage()
 	}
 

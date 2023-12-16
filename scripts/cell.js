@@ -29,6 +29,8 @@ export default class Cell {
 	}
 
 	set value(newValue) {
+		const oldValue = this.#value
+
 		this.#value = newValue
 
 		if (this.isFilled) {
@@ -51,6 +53,9 @@ export default class Cell {
 			this.square.field.eraseButtonElement.disabled = !newValue
 
 			this.valueElement.innerText = newValue
+
+			if (newValue) this.square.field.checkNumberCompletion(newValue)
+			if (oldValue) this.square.field.checkNumberCompletion(oldValue)
 
 			if (!isMistake) this.square.field.checkCompletion()
 		}
