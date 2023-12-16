@@ -9,6 +9,10 @@ rules:
   codeguide/indentation:
     - tab
 
+  codeguide/max-line-length:
+    - 100
+    - ignorePattern: /// https?:///
+
   at-rule-empty-line-before:
     - always
     - except:
