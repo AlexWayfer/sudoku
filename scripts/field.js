@@ -15,14 +15,12 @@ export default class Field {
 
 		//// Drag flags
 
-		this.mousePressed = false
+		this.pressingCell = null;
 
-		this.element.addEventListener('mousedown', _event => {
-			this.mousePressed = true
-		})
-
-		this.element.addEventListener('mouseup', _event => {
-			this.mousePressed = false
+		('ontouchstart' in window ? ['touchend', 'touchcancel'] : ['mouseup']).forEach(eventName => {
+			this.element.addEventListener(eventName, _event => {
+				this.pressingCell = null
+			})
 		})
 
 		//// Table

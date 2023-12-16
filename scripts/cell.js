@@ -15,13 +15,51 @@ export default class Cell {
 			`tr:nth-child(${this.rowIndex + 1}) td:nth-child(${this.columnIndex + 1})`
 		)
 
-		this.element.addEventListener('mousedown', _event => {
+		this.element.cell = this
+
+		this.element.addEventListener('ontouchstart' in window ? 'touchstart' : 'mousedown', _event => {
+			// console.debug('_event = ', _event)
+
+			this.square.field.pressingCell = this
 			this.#pressEvent()
 		})
 
-		this.element.addEventListener('mouseenter', _event => {
-			if (this.square.field.mousePressed) this.#pressEvent()
-		})
+		if ('ontouchstart' in window) {
+			this.element.addEventListener('touchmove', event => {
+				// console.debug('event = ', event)
+
+				const
+					elementFromPoint = document.elementFromPoint(
+						event.changedTouches[0].clientX, event.changedTouches[0].clientY
+					),
+					targetCellElement = elementFromPoint.closest('.field table td'),
+					targetCell = targetCellElement?.cell
+
+				// console.debug('targetElement = ', targetCellElement)
+				// console.debug('targetCell = ', targetCell)
+				// console.debug('this.square.field.pressingCell = ', this.square.field.pressingCell)
+
+				if (
+					!targetCell ||
+						!this.square.field.pressingCell ||
+						this.square.field.pressingCell == targetCell
+				) {
+					return
+				}
+
+				this.square.field.pressingCell = targetCell
+				targetCell.#pressEvent()
+			})
+		} else {
+			this.element.addEventListener('mousemove', _event => {
+				// console.debug('_event = ', _event)
+
+				if (!this.square.field.pressingCell || this.square.field.pressingCell == this) return
+
+				this.square.field.pressingCell = this
+				this.#pressEvent()
+			})
+		}
 
 		this.valueElement = this.element.querySelector('.value')
 
