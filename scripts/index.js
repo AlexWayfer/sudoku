@@ -20,13 +20,11 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case '7':
 			case '8':
 			case '9':
-				if (selectedCell) {
-					if (field.isNotesMode) {
-						selectedCell.toggleNoteWithHistory(event.key)
-					} else {
-						selectedCell.setValueWithHistory(event.key)
-					}
-					field.playSoundEffect('click')
+				if (field.settings.fastMode) {
+					field.selectedNumberButton =
+						field.numberButtons.find(numberButton => numberButton.value == event.key)
+				} else {
+					selectedCell?.input(event.key)
 				}
 				break
 			case 'w':
@@ -48,6 +46,11 @@ document.addEventListener('DOMContentLoaded', _event => {
 			case 'Delete':
 			case 'Backspace':
 				selectedCell?.erase()
+				break
+			case ' ': // Space
+				if (field.settings.fastMode) {
+					selectedCell?.input(field.selectedNumberButton.value)
+				}
 				break
 			case 'n':
 				field.toggleNotesMode()

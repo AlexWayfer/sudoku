@@ -17,6 +17,14 @@ export default class Cell {
 
 		this.element.addEventListener('click', _event => {
 			this.square.field.selectedCell = this
+
+			if (!this.square.field.settings.fastMode) return
+
+			const selectedNumberButton = this.square.field.selectedNumberButton
+
+			if (!selectedNumberButton) return
+
+			this.input(this.square.field.selectedNumberButton.value)
 		})
 
 		this.valueElement = this.element.querySelector('.value')
@@ -134,6 +142,15 @@ export default class Cell {
 		this.toggleNote(value)
 
 		this.square.field.historyPush({ action: 'toggleNote', cell: this, value })
+	}
+
+	input(value) {
+		if (this.square.field.isNotesMode) {
+			this.toggleNoteWithHistory(value)
+		} else {
+			this.setValueWithHistory(value)
+		}
+		this.square.field.playSoundEffect('click')
 	}
 
 	getTakenValues() {

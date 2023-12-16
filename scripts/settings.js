@@ -3,6 +3,7 @@ export default class Settings {
 		clearNotesAfterValue: true,
 		hideButtonsForCompletedNumbers: true,
 		playSoundEffects: true,
+		fastMode: false,
 		confirmationOnPageReload: true
 	}
 
@@ -25,6 +26,8 @@ export default class Settings {
 		this.#defineCheckboxSetting('hideButtonsForCompletedNumbers')
 
 		this.#defineCheckboxSetting('playSoundEffects')
+
+		this.#defineCheckboxSetting('fastMode')
 
 		this.#defineCheckboxSetting('confirmationOnPageReload')
 	}
@@ -70,6 +73,18 @@ export default class Settings {
 
 	set playSoundEffects(newValue) {
 		this.#data.playSoundEffects = newValue
+		this.#syncLocalStorage()
+	}
+
+	get fastMode() {
+		return this.#data.fastMode
+	}
+
+	set fastMode(newValue) {
+		this.#data.fastMode = newValue
+
+		if (!newValue) this.field.selectedNumberButton = null
+
 		this.#syncLocalStorage()
 	}
 

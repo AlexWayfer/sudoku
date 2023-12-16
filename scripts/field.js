@@ -328,6 +328,18 @@ export default class Field {
 		}
 	}
 
+	get selectedNumberButton() {
+		return this.numberButtons.find(numberButton => numberButton.selected)
+	}
+
+	set selectedNumberButton(numberButton) {
+		if (numberButton?.completed) return
+
+		this.selectedNumberButton?.toggleSelection(false)
+
+		numberButton?.toggleSelection(true)
+	}
+
 	reset() {
 		this.squares.flat().forEach(square => square.reset())
 

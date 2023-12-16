@@ -304,14 +304,24 @@ body {
 				font-size: 2em;
 				margin: 4px;
 
-				--background-color: color-mix(in srgb, var(--button-background-color), var(--link-color) 20%);
+				--background-color: color-mix(
+					in srgb, var(--button-background-color), var(--link-color) 20%
+				);
+				--color: color-mix(in srgb, var(--button-text-color), var(--link-color) 30%);
+				--border-color: color-mix(in srgb, var(--background-color), var(--link-color) 20%);
 
 				background-color: var(--background-color);
-				border-color: color-mix(in srgb, var(--background-color), var(--link-color) 20%);
-				color: color-mix(in srgb, var(--button-text-color), var(--link-color) 30%);
+				border-color: var(--border-color);
+				color: var(--color);
 
 				&.completed {
 					visibility: hidden;
+				}
+
+				&.selected {
+					background-color: color-mix(in srgb, var(--background-color), var(--link-color) 40%);
+					border-color: color-mix(in srgb, var(--border-color), var(--text-color) 25%);
+					color: color-mix(in srgb, var(--color), var(--text-color) 40%);
 				}
 
 				@media (width < 650px) {
