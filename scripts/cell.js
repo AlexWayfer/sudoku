@@ -97,6 +97,11 @@ export default class Cell {
 			this.notes[value].remove()
 			delete this.notes[value]
 		} else {
+			if (this.isPreFilled) {
+				alert("You can't place notes for pre-filled cells.")
+				return
+			}
+
 			const noteElement = document.createElement('span')
 
 			noteElement.classList.add('note')
