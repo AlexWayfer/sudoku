@@ -16,23 +16,9 @@ export default class Settings {
 
 		//// Getters and setters are working
 
-		const clearNotesAfterValueElement =
-			this.overlayElement.querySelector('input[name="clear-notes-after-value"]')
+		this.#defineCheckboxSetting('clearNotesAfterValue')
 
-		clearNotesAfterValueElement.checked = this.clearNotesAfterValue
-
-		clearNotesAfterValueElement.addEventListener('change', event => {
-			this.clearNotesAfterValue = event.target.checked
-		})
-
-		const hideButtonsForCompletedNumbersElement =
-			this.overlayElement.querySelector('input[name="hide-buttons-for-completed-numbers"]')
-
-		hideButtonsForCompletedNumbersElement.checked = this.hideButtonsForCompletedNumbers
-
-		hideButtonsForCompletedNumbersElement.addEventListener('change', event => {
-			this.hideButtonsForCompletedNumbers = event.target.checked
-		})
+		this.#defineCheckboxSetting('hideButtonsForCompletedNumbers')
 	}
 
 	show() {
@@ -68,6 +54,18 @@ export default class Settings {
 		}
 
 		this.#syncLocalStorage()
+	}
+
+	#defineCheckboxSetting(settingName) {
+		const
+			checkboxName = settingName.split(/(?=[A-Z])/).map(string => string.toLowerCase()).join('-'),
+			checkboxElement = this.overlayElement.querySelector(`input[name="${checkboxName}"]`)
+
+		checkboxElement.checked = this[settingName]
+
+		checkboxElement.addEventListener('change', event => {
+			this[settingName] = event.target.checked
+		})
 	}
 
 	#syncLocalStorage() {
