@@ -18,6 +18,7 @@ config.forEach(server => {
 			path.resolve(rootDir, 'images'),
 			path.resolve(rootDir, 'scripts'),
 			path.resolve(rootDir, 'styles'),
+			path.resolve(rootDir, 'sounds'),
 			path.resolve(rootDir, 'index.html')
 		],
 		command = `scp -r ${files.join(' ')} ${server.ssh}:${server.path}`
