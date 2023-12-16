@@ -343,6 +343,8 @@ export default class Field {
 		// document.querySelector('.loading').classList.remove('hidden')
 
 		this.squares.flat().forEach(square => square.clear())
+
+		this.numberButtons.forEach(numberButton => numberButton.toggleCompletion(false))
 	}
 
 	fill() {
@@ -360,6 +362,8 @@ export default class Field {
 				cell.fill()
 			})
 		})
+
+		this.numberButtons.forEach(numberButton => this.checkNumberCompletion(numberButton.value))
 
 		document.querySelector('.loading').classList.add('hidden')
 		this.element.classList.remove('transparent')
