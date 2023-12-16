@@ -16,8 +16,6 @@ export default class Settings {
 
 		//// Getters and setters are working
 
-		this.clearNotesAfterValue ??= true
-
 		const clearNotesAfterValueElement =
 			this.overlayElement.querySelector('input[name="clear-notes-after-value"]')
 
@@ -26,8 +24,6 @@ export default class Settings {
 		clearNotesAfterValueElement.addEventListener('change', event => {
 			this.clearNotesAfterValue = event.target.checked
 		})
-
-		this.hideButtonsForCompletedNumbers ??= true
 
 		const hideButtonsForCompletedNumbersElement =
 			this.overlayElement.querySelector('input[name="hide-buttons-for-completed-numbers"]')
