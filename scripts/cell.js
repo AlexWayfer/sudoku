@@ -139,7 +139,10 @@ export default class Cell {
 	reset() {
 		this.element.classList.remove('selected')
 		this.valueElement.classList.remove('mistake')
-		if (!this.isPreFilled) this.value = null
+		if (!this.isPreFilled) {
+			this.value = null
+			this.#clearNotes()
+		}
 	}
 
 	erase() {
@@ -164,10 +167,7 @@ export default class Cell {
 		this.value = null
 		this.valueElement.innerText = null
 
-		for (const noteValue in this.notes) {
-			this.notes[noteValue].remove()
-		}
-		this.notes = {}
+		this.#clearNotes()
 	}
 
 	get isPreFilled() {
@@ -184,6 +184,13 @@ export default class Cell {
 
 	unselect() {
 		this.element.classList.remove('selected')
+	}
+
+	#clearNotes() {
+		for (const noteValue in this.notes) {
+			this.notes[noteValue].remove()
+		}
+		this.notes = {}
 	}
 
 	#getTakenCells() {
