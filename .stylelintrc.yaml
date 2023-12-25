@@ -1,15 +1,14 @@
 extends:
   - stylelint-config-standard
-  ## https://github.com/firefoxic/stylelint-codeguide/issues/9
-  - ./.stylelint-codeguide.yaml
+  - '@stylistic/stylelint-config'
 
 ignorePath: .gitignore
 
 rules:
-  codeguide/indentation:
+  '@stylistic/indentation':
     - tab
 
-  codeguide/max-line-length:
+  '@stylistic/max-line-length':
     - 100
     - ignorePattern: /// https?:///
 
@@ -23,9 +22,9 @@ rules:
       ignoreAtRules:
         - else
 
-  codeguide/declaration-colon-newline-after: null
+  '@stylistic/declaration-colon-newline-after': null
 
-  codeguide/function-comma-newline-after: null
+  '@stylistic/function-comma-newline-after': null
 
   declaration-empty-line-before:
     - always
