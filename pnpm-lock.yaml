@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
+  '@stylistic/stylelint-config':
+    specifier: ^1.0.1
+    version: 1.0.1(stylelint@16.0.2)
   eslint:
     specifier: ^8.56.0
     version: 8.56.0
@@ -20,9 +23,6 @@ devDependencies:
   stylelint:
     specifier: ^16.0.2
     version: 16.0.2
-  stylelint-codeguide:
-    specifier: ^2.0.0
-    version: 2.0.0(stylelint@16.0.2)
   stylelint-config-standard:
     specifier: ^35.0.0
     version: 35.0.0(stylelint@16.0.2)
@@ -218,6 +218,32 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@stylistic/stylelint-config@1.0.1(stylelint@16.0.2):
+    resolution: {integrity: sha512-JgFP88HZEyo34k9RpWVdcQJtLPrMxYE58IO3qypXhmvE/NmZohj+xjDtQ8UfaarnYsLecnldw57/GHum07Ctdw==}
+    engines: {node: ^18.12 || >=20.9}
+    peerDependencies:
+      stylelint: ^16.0.2
+    dependencies:
+      '@stylistic/stylelint-plugin': 2.0.0(stylelint@16.0.2)
+      stylelint: 16.0.2
+    dev: true
+
+  /@stylistic/stylelint-plugin@2.0.0(stylelint@16.0.2):
+    resolution: {integrity: sha512-dHKuT6PGd1WGZLOTuozAM7GdQzdmlmnFXYzvV1jYJXXpcCpV/OJ3+n8TXpMkoOeKHpJydY43EOoZTO1W/FOA4Q==}
+    engines: {node: ^18.12 || >=20.9}
+    peerDependencies:
+      stylelint: ^16.0.2
+    dependencies:
+      '@csstools/css-parser-algorithms': 2.3.2(@csstools/css-tokenizer@2.2.1)
+      '@csstools/css-tokenizer': 2.2.1
+      '@csstools/media-query-list-parser': 2.1.5(@csstools/css-parser-algorithms@2.3.2)(@csstools/css-tokenizer@2.2.1)
+      is-plain-object: 5.0.0
+      postcss-selector-parser: 6.0.13
+      postcss-value-parser: 4.2.0
+      style-search: 0.1.0
+      stylelint: 16.0.2
+    dev: true
 
   /@types/concat-stream@2.0.1:
     resolution: {integrity: sha512-v5HP9ZsRbzFq5XRo2liUZPKzwbGK5SuGVMWZjE6iJOm/JNdESk3/rkfcPe0lcal0C32PTLVlYUYqGpMGNdDsDg==}
@@ -2495,23 +2521,6 @@ packages:
 
   /style-search@0.1.0:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
-    dev: true
-
-  /stylelint-codeguide@2.0.0(stylelint@16.0.2):
-    resolution: {integrity: sha512-FN+8LMOIaNfQamr8WDRfYTRVbSZP7dgbiki0gIX0ycl4NXzNKjYTl48cOmangBBtd1+3armmFBJfSryyKVGdzA==}
-    engines: {node: ^18.12 || >=20.9}
-    deprecated: This package has been deprecated in favor of @stylistic/stylelint-plugin
-    peerDependencies:
-      stylelint: ^16.0.2
-    dependencies:
-      '@csstools/css-parser-algorithms': 2.3.2(@csstools/css-tokenizer@2.2.1)
-      '@csstools/css-tokenizer': 2.2.1
-      '@csstools/media-query-list-parser': 2.1.5(@csstools/css-parser-algorithms@2.3.2)(@csstools/css-tokenizer@2.2.1)
-      is-plain-object: 5.0.0
-      postcss-selector-parser: 6.0.13
-      postcss-value-parser: 4.2.0
-      style-search: 0.1.0
-      stylelint: 16.0.2
     dev: true
 
   /stylelint-config-recommended@14.0.0(stylelint@16.0.2):
